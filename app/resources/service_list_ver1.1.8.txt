@@ -1,0 +1,900 @@
+Device AirConditioner:
+  """
+  Tags:
+    #AirConditioner
+
+  Enums:
+    switchEnum: [on, off]
+    acModeEnum: [auto, cool, heat]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    airConditionerMode_airConditionerMode: acModeEnum  # current mode
+    airConditionerMode_supportedAcModes: STRING  # supported: "auto|cool|heat" (plain STRING)
+    airConditionerMode_targetTemperature: DOUBLE  # target temperature
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    airConditionerMode_setAirConditionerMode(mode: acModeEnum) -> VOID
+    airConditionerMode_setTemperature(temperature: DOUBLE) -> VOID
+  """
+
+Device AirPurifier:
+  """
+  Tags:
+    #AirPurifier
+    #Upper
+
+  Enums:
+    switchEnum: [on, off]
+    purifierFanEnum: [auto, low, medium, high, sleep, quiet, windFree, off]  # sleep=low noise, quiet=low noise, windFree=no cold air
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    airPurifierFanMode_airPurifierFanMode: purifierFanEnum # current mode of the fan
+    airPurifierFanMode_supportedAirPurifierFanModes: STRING  # supported: "auto|low|medium|high|sleep|..." (plain STRING)
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    airPurifierFanMode_setAirPurifierFanMode(mode: purifierFanEnum) -> VOID
+  """
+
+Device AirQualityDetector:
+  """
+  Tags:
+    #AirQualityDetector
+
+  Attributes:
+    carbonDioxideMeasurement_carbonDioxide: DOUBLE # indoor CO2 Level
+    dustSensor_dustLevel: INTEGER  # indoor PM10 level (micrograms per cubic meter)
+    dustSensor_fineDustLevel: INTEGER  # indoor PM2.5 level (micrograms per cubic meter)
+    dustSensor_veryFineDustLevel: INTEGER  # indoor PM1.0 level (micrograms per cubic meter)
+    relativeHumidityMeasurement_humidity: DOUBLE  # indoor relative humidity(0-100%)
+    tvocMeasurement_tvocLevel: DOUBLE  # indoor Total VOC level
+    temperatureMeasurement_temperature: DOUBLE  # indoor temperature (degrees Celsius)
+    temperatureMeasurement_temperatureRange: STRING  # Range as "min|max", e.g. "-20|50"
+  """
+
+Device Alarm:
+  """
+  Tags:
+    #Alarm
+
+  Enums:
+    alarmEnum: [both, off, siren, strobe]  # both=siren+strobe, siren=sound only, strobe=light only
+    alarmVolumeEnum: [mute, low, medium, high]
+
+  Attributes:
+    battery_battery: INTEGER  # battery level (0-100%)
+    alarm_alarm: alarmEnum  # alarm status
+    alarm_alarmVolume: alarmVolumeEnum  # current volume level
+
+  Methods:
+    alarm_both() -> VOID  # strobe and sound
+    alarm_off() -> VOID  # turn off alarm
+    alarm_siren() -> VOID  # sound siren only
+    alarm_strobe() -> VOID  # strobe only
+    alarm_setAlarmVolume(alarmVolume: alarmVolumeEnum) -> VOID
+  """
+
+Device Blind:
+  """
+  Tags:
+    #Blind
+
+  Enums:
+    blindEnum: [closed, closing, open, opening, partially, paused, unknown]
+
+  Attributes:
+    blind_blind: blindEnum  # blind state
+    blindLevel_blindLevel: INTEGER  # current blind level (0-100%, 0=closed, 100=open)
+
+  Methods:
+    blind_close() -> VOID
+    blind_open() -> VOID
+    blind_pause() -> VOID  # Pause opening or closing
+    blindLevel_setBlindLevel(blindLevel: INTEGER) -> VOID  # set blind level(0-100%, 0=closed, 100=open)
+  """
+
+Device Button:
+  """
+  Tags:
+    #Button
+
+  Enums:
+    buttonEnum: [pushed, held, double, pushed_2x(pushed twice), pushed_3x, pushed_4x, pushed_5x, pushed_6x, 
+                 down(clicked down), down_2x, down_3x, down_4x, down_5x, down_6x, down_hold,
+                 up(clicked up), up_2x, up_3x, up_4x, up_5x, up_6x, up_hold,
+                 swipe_up, swipe_down, swipe_left, swipe_right]  # pushed_2x=pushed twice, down=clicked down, up=clicked up
+
+  Attributes:
+    button_button: buttonEnum  # button state
+    button_numberOfButtons: INTEGER  # number of buttons
+    button_supportedButtonValues: STRING  # supported button values: "pushed|held|..."
+  """
+
+Device Buttonx4:
+  """
+  Tags:
+    #Buttonx4
+
+  Enums:
+    buttonEnum: [pushed, held, double, pushed_2x(pushed twice), pushed_3x, pushed_4x, pushed_5x, pushed_6x, 
+                 down(clicked down), down_2x, down_3x, down_4x, down_5x, down_6x, down_hold,
+                 up(clicked up), up_2x, up_3x, up_4x, up_5x, up_6x, up_hold,
+                 swipe_up, swipe_down, swipe_left, swipe_right]  # pushed_2x=pushed twice, down=clicked down, up=clicked up
+
+  Attributes:
+    buttonx4_button1: buttonEnum  # state of button 1
+    buttonx4_button2: buttonEnum  # state of button 2
+    buttonx4_button3: buttonEnum  # state of button 3
+    buttonx4_button4: buttonEnum  # state of button 4
+    buttonx4_numberOfButtons: INTEGER  # number of buttons
+    buttonx4_supportedButtonValues: STRING  # supported button values: "pushed|held|..."
+  """
+
+Device Calculator:
+  """
+  Tags:
+    #Calculator
+
+  Methods:
+    calculator_add(a: DOUBLE, b: DOUBLE) -> DOUBLE
+    calculator_div(a: DOUBLE, b: DOUBLE) -> DOUBLE  # divide a by b
+    calculator_mod(a: DOUBLE, b: DOUBLE) -> DOUBLE  # modulo operation (a % b)
+    calculator_mul(a: DOUBLE, b: DOUBLE) -> DOUBLE
+    calculator_sub(a: DOUBLE, b: DOUBLE) -> DOUBLE  # subtract b from a
+  """
+
+Device Camera:
+  """
+  Tags:
+    #Camera
+
+  Enums:
+    switchEnum: [on, off]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    camera_image: BINARY  # latest captured image
+    camera_video: BINARY  # latest captured video
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    camera_take() -> BINARY  # take picture, return image data
+    camera_takeTimelapse(duration: DOUBLE, speed: DOUBLE) -> BINARY  # take timelapse video (duration in seconds)
+  """
+
+Device Charger:
+  """
+  Tags:
+    #Charger
+
+  Enums:
+    chargingStateEnum: [charging, discharging, stopped, fullyCharged, error]
+
+  Attributes:
+    voltageMeasurement_voltage: DOUBLE  # measured voltage (V)
+    currentMeasurement_current: DOUBLE  # measured amperage (A)
+    chargingState_chargingState: chargingStateEnum  # charging state
+    chargingState_supportedChargingStates: STRING  # supported charging states: "charging|discharging|..." (plain STRING)
+  """
+
+Device Clock:
+  """
+  Tags:
+    #Clock
+
+  Enums:
+    weekdayEnum: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+
+  Attributes:
+    clock_date: DOUBLE  # date (format: YYYYMMdd)
+    clock_datetime: DOUBLE  # date and time (format: YYYYMMddhhmm)
+    clock_day: INTEGER  # current day
+    clock_hour: INTEGER  # current hour
+    clock_isHoliday: BOOL  # is today a holiday
+    clock_minute: INTEGER  # current minute
+    clock_month: INTEGER  # current month
+    clock_second: INTEGER  # current second
+    clock_time: DOUBLE  # time (format: hhmm)
+    clock_timestamp: DOUBLE  # unix timestamp (with milliseconds)
+    clock_weekday: weekdayEnum  # current weekday
+    clock_year: INTEGER  # current year
+
+  Methods:
+    clock_delay(ms: INTEGER) -> VOID  # delay execution (milliseconds)
+  """
+
+Device ContactSensor:
+  """
+  Tags:
+    #ContactSensor
+
+  Enums:
+    contactEnum: [open, closed]  # open=no contact, closed=contacted
+
+  Attributes:
+    contactSensor_contact: contactEnum  # contact sensor state
+  """
+
+Device Curtain:
+  """
+  Tags:
+    #Curtain
+
+  Enums:
+    curtainEnum: [closed, closing, open, opening, partially, paused, unknown]
+
+  Attributes:
+    curtain_curtain: curtainEnum  # curtain state
+    curtain_supportedCurtainCommands: STRING  # supported curtain commands: "curtain_close|curtain_open|.."
+
+  Methods:
+    curtain_close() -> VOID
+    curtain_open() -> VOID
+    curtain_pause() -> VOID  # pause opening or closing
+  """
+
+Device Dehumidifier:
+  """
+  Tags:
+    #Dehumidifier
+
+  Enums:
+    switchEnum: [on, off]
+    dehumidifierModeEnum: [cooling, delayWash, drying, finished, refreshing, weightSensing, 
+                          wrinklePrevent, dehumidifying, AIDrying(AI drying), sanitizing, 
+                          internalCare, freezeProtection, continuousDehumidifying, thawingFrozenInside]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    dehumidifierMode_dehumidifierMode: dehumidifierModeEnum  # current dehumidifier mode
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    dehumidifierMode_setDehumidifierMode(mode: dehumidifierModeEnum) -> VOID
+  """
+
+Device Dishwasher:
+  """
+  Tags:
+    #Dishwasher
+
+  Enums:
+    switchEnum: [on, off]
+    dishModeEnum: [eco, intense, auto, quick, rinse, dry]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    dishwasherMode_dishwasherMode: dishModeEnum  # current dishwasher mode
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    dishwasherMode_setDishwasherMode(mode: dishModeEnum) -> VOID
+  """
+
+Device DoorLock:
+  """
+  Tags:
+    #DoorLock
+
+  Enums:
+    doorEnum: [closed, closing, open, opening, unknown]
+
+  Attributes:
+    doorControl_door: doorEnum  # door state
+
+  Methods:
+    doorControl_close() -> VOID
+    doorControl_open() -> VOID
+  """
+
+Device EmailProvider:
+  """
+  Tags:
+    #EmailProvider
+
+  Methods:
+    emailProvider_sendMail(toAddress: STRING, title: STRING, text: STRING) -> VOID  # send email
+    emailProvider_sendMailWithFile(toAddress: STRING, title: STRING, text: STRING, file: BINARY) -> VOID  # send email with attachment
+  """
+
+Device Fan:
+  """
+  Tags:
+    #Fan
+
+  Enums:
+    switchEnum: [on, off]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    fanControl_fanSpeed: INTEGER  # current fan speed (RPM)
+    fanControl_percent: INTEGER  # current fan speed (0-100%)
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    fanControl_setFanSpeed(speed: INTEGER) -> VOID  # set fan speed (RPM)
+    fanControl_setPercent(percent: INTEGER) -> VOID  # set fan speed (0-100%)
+  """
+
+Device Feeder:
+  """
+  Tags:
+    #Feeder
+
+  Enums:
+    switchEnum: [on, off]
+    stateEnum: [idle, feeding, error]
+    unitEnum: [grams, pounds, ounces, servings]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    feederOperatingState_feederOperatingState: stateEnum  # feeder state
+    feederPortion_feedPortion: DOUBLE  # feed portion amount
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    feederOperatingState_startFeeding() -> VOID  # start feeding process
+    feederPortion_setFeedPortion(portion: DOUBLE, unit: unitEnum) -> VOID  # set feed portion and unit
+  """
+
+Device GasMeter:
+  """
+  Tags:
+    #GasMeter
+
+  Attributes:
+    gasMeter_gasMeter: DOUBLE  # gas energy from meter (kWh)
+    gasMeter_gasMeterCalorific: DOUBLE  # heat energy from meter for volume conversion (kcal)
+    gasMeter_gasMeterTime: DOUBLE  # cumulative gas use time from meter (seconds)
+    gasMeter_gasMeterVolume: DOUBLE  # cumulative gas volume from meter (cubic meters)
+  """
+
+Device GasValve:
+  """
+  Tags:
+    #GasValve
+
+  Enums:
+    valveEnum: [open, closed]
+
+  Attributes:
+    valve_valve: valveEnum  # valve open/closed state
+    gasMeter_gasMeter: DOUBLE  # gas energy through valve (kWh)
+    gasMeter_gasMeterCalorific: DOUBLE  # heat energy through valve for volume conversion (kcal)
+    gasMeter_gasMeterTime: DOUBLE  # cumulative gas use time through valve (seconds)
+    gasMeter_gasMeterVolume: DOUBLE  # cumulative gas volume through valve (cubic meters)
+
+  Methods:
+    valve_close() -> VOID
+    valve_open() -> VOID
+  """
+
+Device Humidifier:
+  """
+  Tags:
+    #Humidifier
+
+  Enums:
+    switchEnum: [on, off]
+    humidModeEnum: [auto, low, medium, high]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    humidifierMode_humidifierMode: humidModeEnum  # current humidifier mode
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    humidifierMode_setHumidifierMode(mode: humidModeEnum) -> VOID
+  """
+
+Device HumiditySensor:
+  """
+  Tags:
+    #HumiditySensor
+
+  Attributes:
+    relativeHumidityMeasurement_humidity: DOUBLE  # relative humidity (0-100%)
+  """
+
+Device Irrigator:
+  """
+  Tags:
+    #Irrigator
+
+  Enums:
+    switchEnum: [on, off]
+    unitEnum: [liters, milliliters, gallons, ounces]
+    stateEnum: [idle, watering, error]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    irrigatorPortion_waterPortion: DOUBLE  # water portion amount
+    irrigatorOperatingState_irrigatorOperatingState: stateEnum  # irrigator state
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    irrigatorPortion_setWaterPortion(portion: DOUBLE, unit: unitEnum) -> VOID
+    irrigatorOperatingState_startWatering() -> VOID  # start watering process
+  """
+
+Device LeakSensor:
+  """
+  Tags:
+    #LeakSensor
+
+  Enums:
+    presenceEnum: [detected, not_detected]  # detected=water leak detected, not_detected=no leak
+
+  Attributes:
+    leakSensor_leakage: presenceEnum  # water leak detection status
+  """
+
+Device Light:
+  """
+  Tags:
+    #Light
+
+  Enums:
+    switchEnum: [on, off]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    colorControl_color: STRING  # color in JSON format: {"hue":"0-100%", "saturation":"0-100%"}
+    colorControl_hue: DOUBLE  # hue (0-100%)
+    colorControl_saturation: DOUBLE  # saturation (0-100%)
+    switchLevel_level: INTEGER  # brightness level (0-100%)
+    switchLevel_levelRange: STRING  # level constraints: "min|max" (e.g. "30|60") (plain STRING)
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    colorControl_setColor(color: STRING) -> VOID  # set color: "RED|GREEN|BLUE" (e.g. "255|255|255")
+    colorControl_setHue(hue: DOUBLE) -> VOID  # set hue (0-100%)
+    colorControl_setSaturation(saturation: DOUBLE) -> VOID  # set saturation (0-100%)
+    switchLevel_alert() -> VOID  # alert with dimming
+    switchLevel_setLevel(level: INTEGER, rate: INTEGER) -> VOID  # set brightness level (0-100%) and change speed
+  """
+
+Device LightSensor:
+  """
+  Tags:
+    #LightSensor
+
+  Attributes:
+    lightLevel_light: DOUBLE  # brightness intensity (lux)
+  """
+
+Device MenuProvider:
+  """
+  Tags:
+    #MenuProvider
+
+  Methods:
+    menuProvider_menu(command: STRING) -> STRING  # get menu: "[오늘|내일] [학생식당|수의대식당|전망대|예술계식당|기숙사식당|아워홈|동원관식당|웰스토리|투굿|자하연식당|301동식당] [아침|점심|저녁]"
+    menuProvider_todayMenu() -> STRING  # get today's random menu
+    menuProvider_todayPlace() -> STRING  # get today's random restaurant name
+  """
+
+Device MotionSensor:
+  """
+  Tags:
+    #MotionSensor
+
+  Enums:
+    motionEnum: [active, inactive]
+
+  Attributes:
+    motionSensor_motion: motionEnum  # motion detection state
+  """
+
+Device PresenceSensor:
+  """
+  Tags:
+    #PresenceSensor
+
+  Enums:
+    presenceEnum: [present, not_present]
+
+  Attributes:
+    presenceSensor_presence: presenceEnum  # presence detection state
+  """
+
+Device Pump:
+  """
+  Tags:
+    #Pump
+
+  Enums:
+    switchEnum: [on, off]
+    pumpOpModeEnum: [normal(setpoint controlled), minimum(min speed), maximum(max speed), localSetting(local settings)]
+    pumpEnum: [open, closed]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    pumpOperationMode_currentOperationMode: pumpOpModeEnum  # current effective operation mode
+    pumpOperationMode_operationMode: pumpOpModeEnum  # current operation mode
+    pumpOperationMode_supportedOperationModes: STRING  # supported operation modes: "normal|minimum|..." (plain STRING)
+    pump_pump: pumpEnum  # pump open/closed state
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    pumpOperationMode_setOperationMode(opMode: pumpOpModeEnum) -> VOID
+    pump_close() -> VOID
+    pump_open() -> VOID
+  """
+
+Device Refrigerator:
+  """
+  Tags:
+    #Refrigerator
+
+  Enums:
+    switchEnum: [on, off]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    refrigeration_defrost: switchEnum  # defrost on/off status
+    refrigeration_rapidCooling: switchEnum  # rapid cooling on/off status
+    refrigeration_rapidFreezing: switchEnum  # rapid freezing on/off status
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    refrigeration_setDefrost(defrost: switchEnum) -> VOID  # set defrost on/off
+    refrigeration_setRapidCooling(rapidCooling: switchEnum) -> VOID  # set rapid cooling on/off
+    refrigeration_setRapidFreezing(rapidFreezing: switchEnum) -> VOID  # set rapid freezing on/off
+  """
+
+Device RobotCleaner:
+  """
+  Tags:
+    #RobotCleaner
+
+  Enums:
+    switchEnum: [on, off]
+    cleanModeEnum: [auto, part, repeat, manual, stop, map]  # part=spot clean
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    robotCleanerCleaningMode_robotCleanerCleaningMode: cleanModeEnum  # current cleaning mode
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    robotCleanerCleaningMode_setRobotCleanerCleaningMode(mode: cleanModeEnum) -> VOID  # set cleaning mode
+  """
+
+Device Shade:
+  """
+  Tags:
+    #Shade
+
+  Enums:
+    shadeEnum: [closed, closing, open, opening, partially, paused, unknown]
+
+  Attributes:
+    windowShadeLevel_shadeLevel: INTEGER  # shade level (0-100%, 0=closed, 100=open)
+    windowShade_supportedWindowShadeCommands: STRING  # supported shade commands: "windowShadeLevel_setShadeLevel|windowShade_close|..." (plain STRING)
+    windowShade_windowShade: shadeEnum  # shade state
+
+  Methods:
+    windowShadeLevel_setShadeLevel(shadeLevel: INTEGER) -> VOID  # set shade level (0-100%)
+    windowShade_close() -> VOID
+    windowShade_open() -> VOID
+    windowShade_pause() -> VOID  # pause opening or closing
+  """
+
+
+Device Siren:
+  """
+  Tags:
+    #Siren
+
+  Enums:
+    switchEnum: [on, off]
+    sirenModeEnum: [both, off, siren, strobe]  # both=siren+strobe, siren=sound only, strobe=light only
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    sirenMode_sirenMode: sirenModeEnum  # current siren mode
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    sirenMode_setSirenMode(mode: sirenModeEnum) -> VOID
+  """
+
+Device SmartPlug:
+  """
+  Tags:
+    #SmartPlug
+
+  Enums:
+    switchEnum: [on, off]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    voltageMeasurement_voltage: DOUBLE  # measured voltage (V)
+    powerMeter_power: DOUBLE  # measured power consumption (W)
+    powerMeter_powerConsumption: STRING  # energy consumption: "unit|value" (e.g. "kWh|30") (plain STRING)
+    currentMeasurement_current: DOUBLE  # measured amperage (A)
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+  """
+
+Device SmokeDetector:
+  """
+  Tags:
+    #SmokeDetector
+
+  Enums:
+    smokeEnum: [clear, detected, tested]  # clear=no smoke, detected=smoke detected, tested=test activated
+
+  Attributes:
+    smokeDetector_smoke: smokeEnum  # smoke detection state
+  """
+
+Device SoilMoistureSensor:
+  """
+  Tags:
+    #SoilMoistureSensor
+
+  Attributes:
+    soilHumidityMeasurement_soilHumidity: DOUBLE  # soil moisture level (0-100%)
+  """
+
+Device SoundSensor:
+  """
+  Tags:
+    #SoundSensor
+
+  Enums:
+    soundEnum: [detected(sound detected), not_detected]
+
+  Attributes:
+    soundPressureLevel_soundPressureLevel: DOUBLE  # sound pressure level (dB)
+    soundSensor_sound: soundEnum  # sound detection status
+  """
+
+Device Speaker:
+  """
+  Tags:
+    #Speaker
+
+  Enums:
+    switchEnum: [on, off]
+    playbackEnum: [paused, playing, stopped, fast forward, rewinding, buffering]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    mediaPlayback_playbackStatus: playbackEnum  # playback status
+    mediaPlayback_supportedPlaybackCommands: STRING  # supported playback commands: "mediaPlayback_fastForward|..." (plain STRING)
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    mediaPlayback_fastForward() -> VOID
+    mediaPlayback_pause() -> VOID
+    mediaPlayback_play(source: STRING) -> VOID  # play media from source
+    mediaPlayback_rewind() -> VOID
+    mediaPlayback_setPlaybackStatus(status: playbackEnum) -> VOID  # set playback status
+    mediaPlayback_speak(text: STRING) -> VOID  # text-to-speech
+    mediaPlayback_stop() -> VOID
+  """
+
+Device Recorder:
+  """
+  Tags:
+    #Recorder
+
+  Enums:
+    switchEnum: [on, off]
+    recordEnum: [idle, recording]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    audioRecord_recordStatus: recordEnum  # recording status
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    audioRecord_record(file: STRING, duration: DOUBLE) -> VOID  # record audio to file for duration
+  """
+
+Device Switch:
+  """
+  Tags:
+    #Switch
+
+  Enums:
+    switchEnum: [on, off]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+  """
+
+Device Television:
+  """
+  Tags:
+    #Television
+
+  Enums:
+    switchEnum: [on, off]
+    muteEnum: [muted, unmuted]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+    audioVolume_volume: INTEGER  # current volume level
+    audioMute_muteStatus: muteEnum  # mute status
+    tvChannel_tvChannel: INTEGER  # current TV channel number
+    tvChannel_tvChannelName: STRING  # current TV channel name
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+    audioVolume_setVolume(volume: INTEGER) -> VOID  # set volume level
+    audioVolume_volumeDown() -> VOID
+    audioVolume_volumeUp() -> VOID
+    audioMute_mute() -> VOID
+    audioMute_setMute(state: muteEnum) -> VOID  # set mute state
+    audioMute_unmute() -> VOID
+    tvChannel_channelDown() -> VOID
+    tvChannel_channelUp() -> VOID
+    tvChannel_setTvChannel(tvChannel: INTEGER) -> VOID  # set channel number
+    tvChannel_setTvChannelName(tvChannelName: STRING) -> VOID  # set channel name
+  """
+
+Device TemperatureSensor:
+  """
+  Tags:
+    #TemperatureSensor
+
+  Attributes:
+    temperatureMeasurement_temperature: DOUBLE  # current temperature (degrees Celsius)
+    temperatureMeasurement_temperatureRange: STRING  # temperature range: "min|max" (e.g. "-20|50") (plain STRING)
+  """
+
+Device Valve:
+  """
+  Tags:
+    #Valve
+
+  Enums:
+    valveEnum: [open, closed]
+
+  Attributes:
+    valve_valve: valveEnum  # valve open/closed state
+
+  Methods:
+    valve_close() -> VOID
+    valve_open() -> VOID
+  """
+
+Device WeatherProvider:
+  """
+  Tags:
+    #WeatherProvider
+
+  Enums:
+    weatherEnum: [thunderstorm, drizzle, rain, snow, mist, smoke, haze, dust, fog, sand, ash, squall, tornado, clear, clouds]
+
+  Attributes:
+    weatherProvider_humidityWeather: DOUBLE  # humidity (0-100%)
+    weatherProvider_pm10Weather: DOUBLE  # PM10 level (micrograms per cubic meter)
+    weatherProvider_pm25Weather: DOUBLE  # PM2.5 level (micrograms per cubic meter)
+    weatherProvider_pressureWeather: DOUBLE  # pressure (hPa)
+    weatherProvider_temperatureWeather: DOUBLE  # temperature (degrees Celsius)
+    weatherProvider_weather: weatherEnum  # weather condition
+
+  Methods:
+    weatherProvider_getWeatherInfo(lat: DOUBLE, lon: DOUBLE) -> STRING  # get weather info
+  """
+
+Device Window:
+  """
+  Tags:
+    #Window
+
+  Enums:
+    windowEnum: [closed, open, unknown]
+
+  Attributes:
+    windowControl_window: windowEnum  # window open/closed state
+
+  Methods:
+    windowControl_close() -> VOID
+    windowControl_open() -> VOID
+  """
+
+Device FallDetector:
+  """
+  Tags:
+    #FallDetector
+
+  Enums:
+    fallEnum: [fall, normal]  # fall=fall detected, normal=no fall detected
+
+  Attributes:
+    fallDetection_fall: fallEnum  # fall detection status
+  """
+
+Device OccupancySensor:
+  """
+  Tags:
+    #OccupancySensor
+
+  Enums:
+    presenceEnum: [present, not_present]
+
+  Attributes:
+    presenceSensor_presence: presenceEnum  # occupancy detection status
+  """
+
+Device Relay:
+  """
+  Tags:
+    #Relay
+
+  Enums:
+    switchEnum: [on, off]
+
+  Attributes:
+    switch_switch: switchEnum  # on/off state
+
+  Methods:
+    switch_off() -> VOID
+    switch_on() -> VOID
+    switch_toggle() -> VOID
+  """
+
+Device Timer:
+  """
+  Tags:
+    #Timer
+
+  Methods:
+    timer_add(name: STRING, timeout: DOUBLE) -> VOID  # add timer with timeout (seconds)
+    timer_isExist(name: STRING) -> BOOL  # check if timer exists
+    timer_isSet(name: STRING) -> BOOL  # check if timer is set
+    timer_reset(name: STRING) -> VOID  # reset timer
+    timer_set(name: STRING, timeout: DOUBLE) -> VOID  # set timer with timeout (seconds)
+    timer_start(name: STRING) -> VOID  # start timer
+  """
