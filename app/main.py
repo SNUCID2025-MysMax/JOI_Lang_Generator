@@ -1,11 +1,12 @@
+import unsloth
 import json
 import logging
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 
-from services.run import generate_joi_code 
-from services.loader import load_all_resources
+from .services.run import generate_joi_code 
+from .services.loader import load_all_resources
 
 MODEL_NAME = "unsloth/Qwen2.5-Coder-7B-bnb-4bit"
 
@@ -16,7 +17,7 @@ logger = logging.getLogger("uvicorn")
 MODEL_RESOURCES = load_all_resources(MODEL_NAME)
 logger.info(f"resources loaded for {MODEL_NAME}")
 
-with open("./resources/things.json", "r", encoding="utf-8") as f:
+with open("./app/resources/things.json", "r", encoding="utf-8") as f:
     DEFAULT_CONNECTED_DEVICES = json.load(f)
 
 last_connected_devices = DEFAULT_CONNECTED_DEVICES.copy()

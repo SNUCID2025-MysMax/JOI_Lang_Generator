@@ -19,11 +19,12 @@ def load_all_resources(model_name: str):
     base_dir = os.path.dirname(os.path.abspath(__file__))  # services/ 경로
     root_dir = os.path.abspath(os.path.join(base_dir, ".."))  # 프로젝트 루트
 
-    adapter_path = os.path.join(root_dir, "resources", "models", f"adapter-{model_name}")
+    adapter_name = model_name.split("/")[-1]  # 모델 이름에서 어댑터 이름 추출
+    adapter_path = os.path.join(root_dir, "resources", "adapter", f"{adapter_name}")
 
     # 1. 모델 로딩 - 첫 실행 시 다운로드에 시간이 소요됨
     model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=model,
+        model_name=model_name,
         max_seq_length=4096,
         dtype=None,
         load_in_4bit=True,

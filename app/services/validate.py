@@ -1,6 +1,6 @@
 import re, json
 from sentence_transformers import SentenceTransformer, util
-from services.translate import deepl_translate
+from .translate import deepl_translate
 
 THRESHOLD = 0.7 
 

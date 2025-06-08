@@ -204,6 +204,7 @@ llama.cpp
 llama.cpp2
 llama.cpp*
 
+adapter
 
 unsloth_compiled_cache
 unsloth_training_checkpoints

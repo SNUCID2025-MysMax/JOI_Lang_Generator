@@ -3,10 +3,10 @@
 import os, re, json, copy, torch
 import concurrent.futures
 from datetime import datetime
-from services.translate import deepl_translate
-from embedding import hybrid_recommend
-from services.validate import validate
-from services.joi_tool import parse_scenarios, extract_last_code_block
+from .translate import deepl_translate
+from .embedding import hybrid_recommend
+from .validate import validate
+from .joi_tool import parse_scenarios, extract_last_code_block
 
 
 import logging
