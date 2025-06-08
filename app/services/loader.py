@@ -19,12 +19,11 @@ def load_all_resources(model_name: str):
     base_dir = os.path.dirname(os.path.abspath(__file__))  # services/ 경로
     root_dir = os.path.abspath(os.path.join(base_dir, ".."))  # 프로젝트 루트
 
-    model_base_path = os.path.join(root_dir, "models", f"{model_name}-model")
-    adapter_path = os.path.join(root_dir, "models", f"{model_name}-adapter")
+    adapter_path = os.path.join(root_dir, "resources", "models", f"adapter-{model_name}")
 
-    # 1. 모델 로딩
+    # 1. 모델 로딩 - 첫 실행 시 다운로드에 시간이 소요됨
     model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=model_base_path,
+        model_name=model,
         max_seq_length=4096,
         dtype=None,
         load_in_4bit=True,
@@ -35,42 +34,30 @@ def load_all_resources(model_name: str):
     # 2. tokenizer 설정
     stop_tokens = []
 
-    if model_name == "codegemma":
-        tokenizer = get_chat_template(tokenizer, chat_template="chatml", map_eos_token=True)
-        tokenizer.add_bos_token = False
-        stop_tokens = [
-            "<|im_end|>", "<|file_separator|>", "<|fim_prefix|>", "<|fim_middle|>", "<|fim_suffix|>"
-        ]
-        stop_token_ids = [tokenizer.convert_tokens_to_ids(tok) for tok in stop_tokens if tok in tokenizer.get_vocab()]
-    elif model_name == "qwenCoder":
-        tokenizer = get_chat_template(tokenizer, chat_template="chatml", map_eos_token=True)
-        tokenizer.add_bos_token = False
-        stop_tokens = [
-            "<|im_end|>", "<|endoftext|>", "<|file_sep|>", "<|fim_prefix|>", "<|fim_middle|>", "<|fim_suffix|>",
-            "<|fim_pad|>", "<|repo_name|>", "<|im_start|>", "<|object_ref_start|>", "<|object_ref_end|>",
-            "<|box_start|>", "<|box_end|>", "<|quad_start|>", "<|quad_end|>", "<|vision_start|>",
-            "<|vision_end|>", "<|vision_pad|>", "<|image_pad|>", "<|video_pad|>"
-        ]
-        stop_token_ids = [tokenizer.convert_tokens_to_ids(tok) for tok in stop_tokens if tok in tokenizer.get_vocab()]
-    elif model_name == "gemma3":
-        tokenizer = get_chat_template(tokenizer, chat_template="gemma-3")
-        tokenizer.add_bos_token = False
-        stop_tokens = ["<end_of_turn>"]
-        stop_token_ids = [tokenizer.tokenizer.convert_tokens_to_ids(token) for token in stop_tokens if token in tokenizer.tokenizer.get_vocab()]
+    tokenizer = get_chat_template(tokenizer, chat_template="chatml", map_eos_token=True)
+    tokenizer.add_bos_token = False
+    stop_tokens = [
+        "<|im_end|>", "<|endoftext|>", "<|file_sep|>", "<|fim_prefix|>", "<|fim_middle|>", "<|fim_suffix|>",
+        "<|fim_pad|>", "<|repo_name|>", "<|im_start|>", "<|object_ref_start|>", "<|object_ref_end|>",
+        "<|box_start|>", "<|box_end|>", "<|quad_start|>", "<|quad_end|>", "<|vision_start|>",
+        "<|vision_end|>", "<|vision_pad|>", "<|image_pad|>", "<|video_pad|>"
+    ]
+    stop_token_ids = [tokenizer.convert_tokens_to_ids(tok) for tok in stop_tokens if tok in tokenizer.get_vocab()]
 
-    # 3. 디바이스 클래스 추출
+    # 3. 디바이스 docs 추출
     with open(os.path.join(root_dir,"resources","service_list_ver1.1.8.txt"), "r") as f:
         service_doc = f.read()
     device_classes = extract_classes_by_name(service_doc)
 
-    # 4. 문법 규칙 읽기
+    # 4. 문법 규칙 불러오기
     with open(os.path.join(root_dir, "resources", "grammar_ver1_1_5.txt"), "r") as f:
         grammar_rules = f.read()
 
-    # 4. 임베딩 및 문장 유사도 모델
-    embed_model = BGEM3FlagModel(os.path.join(root_dir, "models", "bge-m3"), use_fp16=False, local_files_only=True)
-    # sim_model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
-    sim_model = SentenceTransformer(os.path.join(root_dir, "models", "paraphrase-MiniLM-L6-v2"))
+    # 4. 임베딩 및 문장 유사도 모델 - 첫 실행 시 다운로드에 시간이 소요됨
+    embed_model = BGEM3FlagModel('BAAI/bge-m3', use_fp16=True)
+    # embed_model = BGEM3FlagModel(os.path.join(root_dir, "models", "bge-m3"), use_fp16=False, local_files_only=True)
+    sim_model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
+    # sim_model = SentenceTransformer(os.path.join(root_dir, "models", "paraphrase-MiniLM-L6-v2"))
 
     return {
         "model": model,

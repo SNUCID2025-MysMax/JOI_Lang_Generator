@@ -4,9 +4,11 @@ import os, re, json, copy, torch
 import concurrent.futures
 from datetime import datetime
 from services.translate import deepl_translate
-from Embedding.embedding import hybrid_recommend
+from embedding import hybrid_recommend
 from services.validate import validate
 from services.joi_tool import parse_scenarios, extract_last_code_block
+
+
 import logging
 logger = logging.getLogger("uvicorn")
 
@@ -82,29 +84,9 @@ def generate_joi_code(
     # sentence_translated = sentence
 
     # == 모델 호출 및 생성 ==
-    # for vision models
-    if model == "gemma3":
-        messages = [
-            {
-                "role": "system",
-                "content": [{
-                    "type": "text", 
-                    "text": grammar + "\n\n" + service_doc
-                }]
-            },
-            {
-                "role": "user",
-                "content": [{
-                    "type": "text",
-                    "text": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""
-                }]
-            }
-        ]
-    # for text generation models
-    else:
-        messages = [{"role": "system", "content": grammar}] + \
-                   [{"role": "system", "content": service_doc}] + \
-                   [{"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""}]
+    messages = [{"role": "system", "content": grammar}] + \
+                [{"role": "system", "content": service_doc}] + \
+                [{"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""}]
 
     inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
 

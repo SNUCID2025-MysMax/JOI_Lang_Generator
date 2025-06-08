@@ -7,13 +7,12 @@ from typing import Dict, Any, Optional
 from services.run import generate_joi_code 
 from services.loader import load_all_resources
 
-# 필요한 디렉토리
-# resources / services / Embedding / models
+MODEL_NAME = "unsloth/Qwen2.5-Coder-7B-bnb-4bit"
 
 app = FastAPI()
 
 logger = logging.getLogger("uvicorn")
-MODEL_NAME = "gemma3"
+
 MODEL_RESOURCES = load_all_resources(MODEL_NAME)
 logger.info(f"resources loaded for {MODEL_NAME}")
 

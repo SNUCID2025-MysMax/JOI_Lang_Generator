@@ -5,18 +5,22 @@ import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 from FlagEmbedding import BGEM3FlagModel
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+EMBEDDING_DIR = os.path.join(PROJECT_ROOT, 'resources', 'embedding_result')
+paths = {
+    'dense': os.path.join(EMBEDDING_DIR, 'dense_embeddings.npy'),
+    'colbert': os.path.join(EMBEDDING_DIR, 'colbert_embeddings.pkl'),
+    'sparse': os.path.join(EMBEDDING_DIR, 'sparse_embeddings.json'),
+    'meta': os.path.join(EMBEDDING_DIR, 'metadata.json'),
+}
 
 # 데이터 로드
-dense_embeddings = np.load(os.path.join(BASE_DIR, 'embedding_result', 'dense_embeddings.npy'))
-
-with open(os.path.join(BASE_DIR, 'embedding_result', 'colbert_embeddings.pkl'), 'rb') as f:
+dense_embeddings = np.load(paths['dense'])
+with open(paths['colbert'], 'rb') as f:
     colbert_embeddings = pickle.load(f)
-
-with open(os.path.join(BASE_DIR, 'embedding_result', 'sparse_embeddings.json')) as f:
+with open(paths['sparse']) as f:
     sparse_embeddings = json.load(f)
-
-with open(os.path.join(BASE_DIR, 'embedding_result', 'metadata.json')) as f:
+with open(paths['meta']) as f:
     metadata = json.load(f)
 
 # ColBERT 유사도 계산 함수
