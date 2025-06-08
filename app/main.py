@@ -7,8 +7,9 @@ from typing import Dict, Any, Optional
 
 from .services.run import generate_joi_code 
 from .services.loader import load_all_resources
+    
 
-MODEL_NAME = "unsloth/Qwen2.5-Coder-7B-bnb-4bit"
+MODEL_NAME = "qwenCoder"
 
 app = FastAPI()
 

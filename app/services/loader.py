@@ -16,15 +16,15 @@ def extract_classes_by_name(text: str):
     return {match.group(1): match.group(0) for match in matches}
 
 def load_all_resources(model_name: str):
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # services/ 경로
-    root_dir = os.path.abspath(os.path.join(base_dir, ".."))  # 프로젝트 루트
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.abspath(os.path.join(base_dir, ".."))
 
-    adapter_name = model_name.split("/")[-1]  # 모델 이름에서 어댑터 이름 추출
-    adapter_path = os.path.join(root_dir, "resources", "adapter", f"{adapter_name}")
+    model_base_path = os.path.join(root_dir, "resources", "models", f"{model_name}-model")
+    adapter_path = os.path.join(root_dir, "resources", "models", f"{model_name}-adapter")
 
     # 1. 모델 로딩 - 첫 실행 시 다운로드에 시간이 소요됨
     model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=model_name,
+        model_name=model_base_path,
         max_seq_length=4096,
         dtype=None,
         load_in_4bit=True,
@@ -55,10 +55,10 @@ def load_all_resources(model_name: str):
         grammar_rules = f.read()
 
     # 4. 임베딩 및 문장 유사도 모델 - 첫 실행 시 다운로드에 시간이 소요됨
-    embed_model = BGEM3FlagModel('BAAI/bge-m3', use_fp16=True)
-    # embed_model = BGEM3FlagModel(os.path.join(root_dir, "models", "bge-m3"), use_fp16=False, local_files_only=True)
-    sim_model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
-    # sim_model = SentenceTransformer(os.path.join(root_dir, "models", "paraphrase-MiniLM-L6-v2"))
+    # embed_model = BGEM3FlagModel('BAAI/bge-m3', use_fp16=True)
+    embed_model = BGEM3FlagModel(os.path.join(root_dir, "resources", "models", "bge-m3"), use_fp16=False, local_files_only=True)
+    # sim_model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
+    sim_model = SentenceTransformer(os.path.join(root_dir, "resources", "models", "paraphrase-MiniLM-L6-v2"))
 
     return {
         "model": model,

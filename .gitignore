@@ -210,3 +210,5 @@ unsloth_compiled_cache
 unsloth_training_checkpoints
 _unsloth_sentencepiece_temp
 _unsloth_temporary_saved_buffers
+
+models
