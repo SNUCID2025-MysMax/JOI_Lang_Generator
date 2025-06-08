@@ -190,8 +190,6 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,python
 
-# custom
-**/models/
 
 # finetune에서 py 이외 파일 무시
 finetune_old/*
@@ -211,4 +209,3 @@ unsloth_compiled_cache
 unsloth_training_checkpoints
 _unsloth_sentencepiece_temp
 _unsloth_temporary_saved_buffers
-model
