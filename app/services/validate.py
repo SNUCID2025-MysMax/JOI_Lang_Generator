@@ -144,7 +144,8 @@ def validate_tag_group(code: str, devices: list = []) -> bool:
     return True  # 모두 만족
 
 def translate_string_literals(code: str) -> str:
-    pattern = r'(["\'])(.*?)(\1)'
+    # pattern = r'(["\'])(.*?)(\1)'
+    pattern = r'mediaPlayback_speak\(\s*["\'](.*?)["\']\s*\)'
 
     # 대체 함수 정의
     def replacer(match):

@@ -15,7 +15,8 @@ def download_models():
     if not os.path.exists(qwen_model_path):
         try:
             snapshot_download(
-                repo_id="unsloth/Qwen2.5-Coder-7B-bnb-4bit",
+                # repo_id="unsloth/Qwen2.5-Coder-7B-bnb-4bit",
+                repo_id="unsloth/Qwen2.5-Coder-7B-Instruct-bnb-4bit",
                 local_dir=qwen_model_path,
                 local_dir_use_symlinks=False
             )

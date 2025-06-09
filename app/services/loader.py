@@ -20,7 +20,7 @@ def load_all_resources(model_name: str):
     root_dir = os.path.abspath(os.path.join(base_dir, ".."))
 
     model_base_path = os.path.join(root_dir, "resources", "models", f"{model_name}-model")
-    adapter_path = os.path.join(root_dir, "resources", "models", f"{model_name}-adapter")
+    adapter_path = os.path.join(root_dir, "resources", "models", f"{model_name}-adapter-250610")
 
     # 1. 모델 로딩 - 첫 실행 시 다운로드에 시간이 소요됨
     model, tokenizer = FastLanguageModel.from_pretrained(

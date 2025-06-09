@@ -87,9 +87,13 @@ def generate_joi_code(
     # sentence_translated = sentence
 
     # == 모델 호출 및 생성 ==
-    messages = [{"role": "system", "content": grammar}] + \
-                [{"role": "system", "content": service_doc}] + \
-                [{"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""}]
+    messages = [
+        # {"role": "system", "content": grammar},
+        # {"role": "system", "content": grammar + "\n\n" + service_doc},
+        {"role": "system", "content": f"<grammar>\n{grammar}</grammar>\n\n<devices>{service_doc}</devices>",},
+        # {"role": "system", "content": service_doc},
+        {"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""}
+    ]
 
     inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
 
@@ -135,13 +139,13 @@ def generate_joi_code(
     # 각 코드 조각 별로 교정
     code_ret = []
     for c in code:
-        if (c["code"]==""):
-            continue
         code_piece = c["code"].strip()
         # 유사도 기반 교정 & 태그 검사 & 영어 문자열 번역
         # 인자: 코드, docs, 사용 가능한 디바이스, 디바이스 별 태그 집합, sentence 모델
         code_piece = validate(code_piece, device_classes, list(tag_device.keys()), tag_sets, sim_model)
         c["code"] = code_piece
+        if (c["code"]==""):
+            continue
         code_ret.append(c)
 
     logger.info(f"\nReturn:\n{code_ret}")
