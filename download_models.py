@@ -2,7 +2,7 @@ import os
 from sentence_transformers import SentenceTransformer
 from huggingface_hub import snapshot_download
 
-# 기본 디렉토리 설정
+# 모델을 저장할 디렉토리 설정
 root_dir = os.getcwd()
 models_dir = os.path.join(root_dir, "app", "resources", "models")
 os.makedirs(models_dir, exist_ok=True)

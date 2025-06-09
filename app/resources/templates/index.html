@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{ title }}</h1>
+            <p class="subtitle">모델: <span class="model-name">{{ model_name }}</span></p>
+        </header>
+
+        <main>
+            <form id="codeForm" class="form-container">
+            <div class="form-columns">
+                <!-- 왼쪽 열 -->
+                <div class="form-left">
+                <div class="form-group">
+                    <label for="sentence">입력 문장:</label>
+                    <textarea 
+                    id="sentence" 
+                    name="sentence"
+                    placeholder="코드 생성을 위한 문장을 입력하세요"
+                    required
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>현재 시간 설정:</label>
+                    <div class="datetime-wrapper">
+                        <!-- 첫 줄: 연, 월, 일 -->
+                        <div class="datetime-row">
+                            <div class="datetime-field">
+                            <input type="number" id="year" placeholder="연도" required>
+                            <span class="unit-label">년</span>
+                            </div>
+                            <div class="datetime-field">
+                            <input type="number" id="month" placeholder="월" min="1" max="12" required>
+                            <span class="unit-label">월</span>
+                            </div>
+                            <div class="datetime-field">
+                            <input type="number" id="day" placeholder="일" min="1" max="31" required>
+                            <span class="unit-label">일</span>
+                            </div>
+                        </div>
+
+                        <!-- 두 번째 줄: 시, 분, 초 -->
+                        <div class="datetime-row">
+                            <div class="datetime-field">
+                            <input type="number" id="hour" placeholder="시" min="0" max="23" required>
+                            <span class="unit-label">시</span>
+                            </div>
+                            <div class="datetime-field">
+                            <input type="number" id="minute" placeholder="분" min="0" max="59" required>
+                            <span class="unit-label">분</span>
+                            </div>
+                            <div class="datetime-field">
+                            <input type="number" id="second" placeholder="초" min="0" max="59" required>
+                            <span class="unit-label">초</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- 오른쪽 열 -->
+                <div class="form-right">
+                <div class="form-group">
+                    <label for="connectedDevices">연결된 디바이스 (JSON):</label>
+                    <textarea 
+                    id="connectedDevices" 
+                    name="connectedDevices"
+                    placeholder='{"device1": "status"}'
+                    ></textarea>
+                    <small class="help-text">비워두면 기본 설정을 사용합니다</small>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-primary" id="generateBtn">
+                    <span class="btn-text">코드 생성</span>
+                    <span class="spinner" style="display: none;">⏳</span>
+                    </button>
+                </div>
+                </div>
+            </div>
+            </form>
+
+            
+            <div id="result" class="result-container" style="display: none;">
+                <h3>생성된 결과:</h3>
+                <div class="result-content">
+                    <pre id="generatedCode"></pre>
+                </div>
+                <button type="button" id="copyBtn" class="btn-secondary">결과 복사</button>
+            </div>
+
+            <div id="error" class="error-container" style="display: none;">
+                <h3>오류:</h3>
+                <p id="errorMessage"></p>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/app.js') }}"></script>
+</body>
+</html>

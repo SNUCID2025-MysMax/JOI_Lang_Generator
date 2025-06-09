@@ -1,0 +1,235 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    min-height: 100vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+}
+
+h1 {
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 1.1em;
+}
+
+.model-name {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.form-container {
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+}
+
+textarea,
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.2s;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+textarea:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.help-text {
+    color: #666;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.datetime-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.datetime-row {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.datetime-field {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.datetime-field input[type="number"] {
+    width: 70px;
+    padding: 6px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.unit-label {
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn-primary:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+}
+
+.result-container,
+.error-container {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.result-container {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.error-container {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.result-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 15px 0;
+    overflow-x: auto;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 15px;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .datetime-wrapper {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .datetime-field input[type="number"] {
+        width: 100%;
+    }
+}
+.form-columns {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.form-left {
+    flex: 1 1 55%;
+    min-width: 300px;
+}
+
+.form-right {
+    flex: 1 1 40%;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.form-right .form-group:last-child {
+    margin-top: auto;
+}

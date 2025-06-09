@@ -1,0 +1,1145 @@
+{
+  "virtual_light_livingroom_1": {
+    "id": "virtual_light_livingroom_1",
+    "nick_name": "거실 조명 1",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "livingroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_livingroom_2": {
+    "id": "virtual_light_livingroom_2",
+    "nick_name": "거실 조명 2",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "livingroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_livingroom_3": {
+    "id": "virtual_light_livingroom_3",
+    "nick_name": "거실 조명 3",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "livingroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_livingroom_4": {
+    "id": "virtual_light_livingroom_4",
+    "nick_name": "거실 조명 4",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "livingroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_livingroom_5": {
+    "id": "virtual_light_livingroom_5",
+    "nick_name": "거실 조명 5",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "livingroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_bedroom_1": {
+    "id": "virtual_light_bedroom_1",
+    "nick_name": "침실 조명 1",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "bedroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_bedroom_2": {
+    "id": "virtual_light_bedroom_2",
+    "nick_name": "침실 조명 2",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "bedroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_bedroom_3": {
+    "id": "virtual_light_bedroom_3",
+    "nick_name": "침실 조명 3",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "bedroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_bedroom_4": {
+    "id": "virtual_light_bedroom_4",
+    "nick_name": "침실 조명 4",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "bedroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_bedroom_5": {
+    "id": "virtual_light_bedroom_5",
+    "nick_name": "침실 조명 5",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "bedroom"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_kitchen_1": {
+    "id": "virtual_light_kitchen_1",
+    "nick_name": "주방 조명 1",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "kitchen"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_kitchen_2": {
+    "id": "virtual_light_kitchen_2",
+    "nick_name": "주방 조명 2",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "kitchen"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_kitchen_3": {
+    "id": "virtual_light_kitchen_3",
+    "nick_name": "주방 조명 3",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "kitchen"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_kitchen_4": {
+    "id": "virtual_light_kitchen_4",
+    "nick_name": "주방 조명 4",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "kitchen"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_light_kitchen_5": {
+    "id": "virtual_light_kitchen_5",
+    "nick_name": "주방 조명 5",
+    "category": "Light",
+    "tags": [
+      "Light",
+      "kitchen"
+    ],
+    "functions": [
+      {
+        "name": "colorControl_setColor"
+      },
+      {
+        "name": "colorControl_setHue"
+      },
+      {
+        "name": "colorControl_setSaturation"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      },
+      {
+        "name": "switchLevel_setLevel"
+      },
+      {
+        "name": "switchLevel_alert"
+      }
+    ],
+    "values": [
+      {
+        "name": "colorControl_color",
+        "latest": null
+      },
+      {
+        "name": "colorControl_hue",
+        "latest": null
+      },
+      {
+        "name": "colorControl_saturation",
+        "latest": null
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      },
+      {
+        "name": "switchLevel_level",
+        "latest": null
+      },
+      {
+        "name": "switchLevel_levelRange",
+        "latest": null
+      }
+    ]
+  },
+  "virtual_temperature_livingroom": {
+    "id": "virtual_temperature_livingroom",
+    "nick_name": "거실 온도",
+    "category": "TemperatureSensor",
+    "tags": [
+      "TemperatureSensor",
+      "livingroom"
+    ],
+    "functions": [],
+    "values": [
+      {
+        "name": "temperatureMeasurement_temperature",
+        "latest": 25.0
+      }
+    ]
+  },
+  "virtual_temperature_bedroom": {
+    "id": "virtual_temperature_bedroom",
+    "nick_name": "침실 온도",
+    "category": "TemperatureSensor",
+    "tags": [
+      "TemperatureSensor",
+      "bedroom"
+    ],
+    "functions": [],
+    "values": [
+      {
+        "name": "temperatureMeasurement_temperature",
+        "latest": 25.0
+      }
+    ]
+  },
+  "virtual_temperature_kitchen": {
+    "id": "virtual_temperature_kitchen",
+    "nick_name": "주방 온도",
+    "category": "TemperatureSensor",
+    "tags": [
+      "TemperatureSensor",
+      "kitchen"
+    ],
+    "functions": [],
+    "values": [
+      {
+        "name": "temperatureMeasurement_temperature",
+        "latest": 25.0
+      }
+    ]
+  },
+  "virtual_humidity_livingroom": {
+    "id": "virtual_humidity_livingroom",
+    "nick_name": "거실 습도",
+    "category": "HumiditySensor",
+    "tags": [
+      "HumiditySensor",
+      "livingroom"
+    ],
+    "functions": [],
+    "values": [
+      {
+        "name": "relativeHumidityMeasurement_humidity",
+        "latest": 60.0
+      }
+    ]
+  },
+  "virtual_humidity_bedroom": {
+    "id": "virtual_humidity_bedroom",
+    "nick_name": "침실 습도",
+    "category": "HumiditySensor",
+    "tags": [
+      "HumiditySensor",
+      "bedroom"
+    ],
+    "functions": [],
+    "values": [
+      {
+        "name": "relativeHumidityMeasurement_humidity",
+        "latest": 60.0
+      }
+    ]
+  },
+  "virtual_humidity_kitchen": {
+    "id": "virtual_humidity_kitchen",
+    "nick_name": "주방 습도",
+    "category": "HumiditySensor",
+    "tags": [
+      "HumiditySensor",
+      "kitchen"
+    ],
+    "functions": [],
+    "values": [
+      {
+        "name": "relativeHumidityMeasurement_humidity",
+        "latest": 60.0
+      }
+    ]
+  },
+  "virtual_airconditioner_livingroom": {
+    "id": "virtual_airconditioner_livingroom",
+    "nick_name": "거실 에어컨",
+    "category": "AirConditioner",
+    "tags": [
+      "AirConditioner",
+      "livingroom"
+    ],
+    "functions": [
+      {
+        "name": "airConditionerMode_setAirConditionerMode"
+      },
+      {
+        "name": "airConditionerMode_setTemperature"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      }
+    ],
+    "values": [
+      {
+        "name": "airConditionerMode_airConditionerMode",
+        "latest": "auto"
+      },
+      {
+        "name": "airConditionerMode_targetTemperature",
+        "latest": 24
+      },
+      {
+        "name": "airConditionerMode_supportedAcModes",
+        "latest": "auto|cool|heat"
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      }
+    ]
+  },
+  "virtual_airconditioner_bedroom": {
+    "id": "virtual_airconditioner_bedroom",
+    "nick_name": "침실 에어컨",
+    "category": "AirConditioner",
+    "tags": [
+      "AirConditioner",
+      "bedroom"
+    ],
+    "functions": [
+      {
+        "name": "airConditionerMode_setAirConditionerMode"
+      },
+      {
+        "name": "airConditionerMode_setTemperature"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      }
+    ],
+    "values": [
+      {
+        "name": "airConditionerMode_airConditionerMode",
+        "latest": "auto"
+      },
+      {
+        "name": "airConditionerMode_targetTemperature",
+        "latest": 24
+      },
+      {
+        "name": "airConditionerMode_supportedAcModes",
+        "latest": "auto|cool|heat"
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      }
+    ]
+  },
+  "virtual_airconditioner_kitchen": {
+    "id": "virtual_airconditioner_kitchen",
+    "nick_name": "주방 에어컨",
+    "category": "AirConditioner",
+    "tags": [
+      "AirConditioner",
+      "kitchen"
+    ],
+    "functions": [
+      {
+        "name": "airConditionerMode_setAirConditionerMode"
+      },
+      {
+        "name": "airConditionerMode_setTemperature"
+      },
+      {
+        "name": "switch_on"
+      },
+      {
+        "name": "switch_off"
+      },
+      {
+        "name": "switch_toggle"
+      }
+    ],
+    "values": [
+      {
+        "name": "airConditionerMode_airConditionerMode",
+        "latest": "auto"
+      },
+      {
+        "name": "airConditionerMode_targetTemperature",
+        "latest": 24
+      },
+      {
+        "name": "airConditionerMode_supportedAcModes",
+        "latest": "auto|cool|heat"
+      },
+      {
+        "name": "switch_switch",
+        "latest": "off"
+      }
+    ]
+  }
+}
