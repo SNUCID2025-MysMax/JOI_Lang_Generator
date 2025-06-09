@@ -24,6 +24,9 @@ def call_model(model, inputs, stop_token_ids, tokenizer):
         pad_token_id=tokenizer.pad_token_id,
         max_new_tokens=1024,
         use_cache=True,
+        do_sample=False,  # 더 일관된 출력을 위해
+        temperature=0.1,   # 낮은 temperature
+        repetition_penalty=1.1,  # 반복 방지
         streamer = TextStreamer(tokenizer, skip_prompt = True),
     )
 

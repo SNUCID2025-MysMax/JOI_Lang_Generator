@@ -25,7 +25,7 @@ def load_all_resources(model_name: str):
     # 1. 모델 로딩 - 첫 실행 시 다운로드에 시간이 소요됨
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=model_base_path,
-        max_seq_length=4096,
+        max_seq_length=8192,
         dtype=None,
         load_in_4bit=True,
     )
@@ -51,7 +51,7 @@ def load_all_resources(model_name: str):
     device_classes = extract_classes_by_name(service_doc)
 
     # 4. 문법 규칙 불러오기
-    with open(os.path.join(root_dir, "resources", "grammar_ver1_1_5.txt"), "r") as f:
+    with open(os.path.join(root_dir, "resources", "grammar_ver1_1_6.txt"), "r") as f:
         grammar_rules = f.read()
 
     # 4. 임베딩 및 문장 유사도 모델 - 첫 실행 시 다운로드에 시간이 소요됨
