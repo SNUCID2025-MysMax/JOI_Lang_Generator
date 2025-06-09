@@ -118,7 +118,7 @@ def generate_joi_code(
             response = ""
 
     end = datetime.now()
-    logger.info(f"\nModel Response:\n{response}")
+    # logger.info(f"\nModel Response:\n{response}")
     # --- 파싱 ---
     try:
         code = parse_scenarios(extract_last_code_block(response))['code']
@@ -130,16 +130,20 @@ def generate_joi_code(
 
     # --- 정제 ---
     # 각 코드 조각 별로 교정
+    code_ret = []
     for c in code:
+        if (c["code"]==""):
+            continue
         code_piece = c["code"].strip()
         # 유사도 기반 교정 & 태그 검사 & 영어 문자열 번역
         # 인자: 코드, docs, 사용 가능한 디바이스, 디바이스 별 태그 집합, sentence 모델
         code_piece = validate(code_piece, device_classes, list(tag_device.keys()), tag_sets, sim_model)
         c["code"] = code_piece
+        code_ret.append(c)
 
-    logger.info(f"\nReturn:\n{code}")
+    logger.info(f"\nReturn:\n{code_ret}")
     return {
-        "code": code,
+        "code": code_ret,
         "log": {
             "response_time": f"{(end - start).total_seconds():.3f} seconds",
             "inference_time": f"{(end - start_inference).total_seconds():.3f} seconds",
