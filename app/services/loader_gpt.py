@@ -26,12 +26,12 @@ def load_all_resources(model_name: str):
     stop_token_ids = []
 
     # 3. 디바이스 docs 추출
-    with open(os.path.join(root_dir,"resources","service_list_ver1.1.8.txt"), "r") as f:
+    with open(os.path.join(root_dir,"resources","service_list_ver1.1.8.txt"), "r", encoding="utf-8") as f:
         service_doc = f.read()
     device_classes = extract_classes_by_name(service_doc)
 
     # 4. 문법 규칙 불러오기
-    with open(os.path.join(root_dir, "resources", "grammar_ver1_1_6.txt"), "r") as f:
+    with open(os.path.join(root_dir, "resources", "grammar_ver1_1_6.txt"), "r", encoding="utf-8") as f:
         grammar_rules = f.read()
 
     # 4. 임베딩 및 문장 유사도 모델 - 첫 실행 시 다운로드에 시간이 소요됨

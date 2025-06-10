@@ -18,9 +18,9 @@ paths = {
 dense_embeddings = np.load(paths['dense'])
 with open(paths['colbert'], 'rb') as f:
     colbert_embeddings = pickle.load(f)
-with open(paths['sparse']) as f:
+with open(paths['sparse'], encoding='utf-8') as f:
     sparse_embeddings = json.load(f)
-with open(paths['meta']) as f:
+with open(paths['meta'], encoding='utf-8') as f:
     metadata = json.load(f)
 
 # ColBERT 유사도 계산 함수

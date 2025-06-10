@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
     model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 
-    with open("./resources/service_list_ver1.1.8.txt", "r") as f:
+    with open("./resources/service_list_ver1.1.8.txt", "r", encoding="utf-8") as f:
         service_doc = f.read()
     device_classes = extract_classes_by_name(service_doc)
 

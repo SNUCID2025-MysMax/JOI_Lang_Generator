@@ -7,3 +7,4 @@ scikit-learn==1.6.1
 FlagEmbedding==1.3.4
 sentence-transformers==4.1.0
 jinja2
+huggingface_hub
