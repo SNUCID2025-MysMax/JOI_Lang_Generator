@@ -8,25 +8,7 @@ models_dir = os.path.join(root_dir, "app", "resources", "models")
 os.makedirs(models_dir, exist_ok=True)
 
 def download_models():
-    # # 1. Unsloth Qwen2.5-Coder-7B 모델 다운로드
-    # print("Downloading Qwen2.5-Coder-7B model...")
-    # qwen_model_path = os.path.join(models_dir, "qwenCoder-model")
-    
-    # if not os.path.exists(qwen_model_path):
-    #     try:
-    #         snapshot_download(
-    #             # repo_id="unsloth/Qwen2.5-Coder-7B-bnb-4bit",
-    #             repo_id="unsloth/Qwen2.5-Coder-7B-Instruct-bnb-4bit",
-    #             local_dir=qwen_model_path,
-    #             local_dir_use_symlinks=False
-    #         )
-    #         print("✓ Qwen2.5-Coder-7B 다운로드 완료")
-    #     except Exception as e:
-    #         print(f"✗ Qwen 모델 다운로드 실패: {e}")
-    # else:
-    #     print("✓ Qwen2.5-Coder-7B 이미 존재함")
 
-    
     # 2. BGE-M3 모델 다운로드
     print("Downloading BGE-M3 model...")
     bge_model_path = os.path.join(models_dir, "bge-m3")
@@ -57,20 +39,6 @@ def download_models():
     else:
         print("✓ paraphrase-MiniLM-L6-v2 이미 존재함")
     
-    # # 4. 어댑터 다운로드
-    # print("Downloading adapter from endermaru/mysmax...")
-    # adapter_path = os.path.join(models_dir, "qwenCoder-adapter")
-    # if not os.path.exists(adapter_path): 
-    #     try:
-    #         snapshot_download(
-    #             repo_id="endermaru/mysmax",
-    #             local_dir=adapter_path,
-    #         )
-    #         print("✓ 어댑터 다운로드 완료")
-    #     except Exception as e:
-    #         print(f"✗ 어댑터 다운로드 실패: {e}")
-    # else:
-    #     print("✓ 어댑터 이미 존재함")
 
 if __name__ == "__main__":
     print("모델 다운로드 및 로드를 시작합니다...")

@@ -1,11 +1,5 @@
-# model_loader.py
-# import unsloth
 import os, re
-# from unsloth import FastLanguageModel
-# from unsloth.chat_templates import get_chat_template
 from sentence_transformers import SentenceTransformer
-# from transformers import AutoTokenizer
-# from peft import PeftModel
 from openai import OpenAI
 from app.config import settings
 from FlagEmbedding import BGEM3FlagModel

@@ -11,8 +11,8 @@ from typing import Dict, Any, Optional
 from .services.run_gpt import generate_joi_code 
 from .services.loader_gpt import load_all_resources
     
-# 사용할 모델 - Qwen2.5-Coder-7B
-MODEL_NAME = "qwenCoder"
+# 사용할 모델
+MODEL_NAME = "GPT-4"
 
 app = FastAPI()
 logger = logging.getLogger("uvicorn")

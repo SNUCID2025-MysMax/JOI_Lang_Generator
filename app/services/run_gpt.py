@@ -1,7 +1,6 @@
 # run.py
 
-import os, re, json, copy, torch
-# import concurrent.futures
+import os, re, json, copy
 from datetime import datetime
 from .translate import deepl_translate
 from .embedding import hybrid_recommend
@@ -33,8 +32,6 @@ def generate_joi_code(
     model_resources: dict = None
 ) -> dict:
     client = model_resources["model"]
-    tokenizer = model_resources["tokenizer"]
-    stop_token_ids = model_resources["stop_token_ids"]
     embed_model = model_resources["embed_model"]
     sim_model = model_resources["sim_model"]
     device_classes = copy.deepcopy(model_resources["device_classes"])
@@ -82,10 +79,7 @@ def generate_joi_code(
 
     # == 모델 호출 및 생성 ==
     messages = [
-        # {"role": "system", "content": grammar},
-        # {"role": "system", "content": grammar + "\n\n" + service_doc},
         {"role": "system", "content": f"<grammar>\n{grammar}</grammar>\n\n<devices>{service_doc}</devices>",},
-        # {"role": "system", "content": service_doc},
         {"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""}
     ]
 
