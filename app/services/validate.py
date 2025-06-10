@@ -160,7 +160,7 @@ def translate_string_literals(code: str) -> str:
 
     return re.sub(pattern, replacer, code)
 
-def validate(code:str, classes: dict, selected_devices: list, devices_available: list, model) -> str:
+def validate(code:str, classes: dict, selected_devices: list, devices_available: list, model, is_translate = True) -> str:
     classes = {device:extract_accessors(classes[device]) for device in selected_devices}
 
     tags = set()
@@ -177,8 +177,8 @@ def validate(code:str, classes: dict, selected_devices: list, devices_available:
 
     if not validate_tag_group(code, devices_available):
         return ""
-
-    code = translate_string_literals(code)
+    if is_translate:
+        code = translate_string_literals(code)
     
     return code
 
