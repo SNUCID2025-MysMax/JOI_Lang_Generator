@@ -77,6 +77,14 @@ def generate_joi_code(
 
     service_doc = "\n---\n".join([device_classes[i] for i in service_selected])
 
+    # 최소한의 TTS에 필요한 Speaker 정보 추가
+    if ("Speaker" not in service_selected):
+        match = re.search(r'Device\s+\w+:(?:.*?\n)*?(?=^\s*Enums:)', service_selected["Speaker"], re.MULTILINE)
+        if match:
+            speaker_info = match.group().strip() + "\n\nMethods:\n  mediaPlayback_speak(text: STRING) -> VOID  # text-to-speech\n\n"
+            service_doc += "\n---\n" + speaker_info
+        service_selected.add("Speaker")
+
     # == 문장 번역 ==
     try:
         sentence_translated = deepl_translate(sentence)
@@ -88,10 +96,7 @@ def generate_joi_code(
 
     # == 모델 호출 및 생성 ==
     messages = [
-        # {"role": "system", "content": grammar},
-        # {"role": "system", "content": grammar + "\n\n" + service_doc},
         {"role": "system", "content": f"<grammar>\n{grammar}</grammar>\n\n<devices>{service_doc}</devices>",},
-        # {"role": "system", "content": service_doc},
         {"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""}
     ]
 
