@@ -1,6 +1,9 @@
 # model_loader.py
 import unsloth
 import os, re
+import numpy as np
+import json
+import pickle
 from unsloth import FastLanguageModel
 from unsloth.chat_templates import get_chat_template
 from sentence_transformers import SentenceTransformer
@@ -16,6 +19,9 @@ def extract_classes_by_name(text: str):
     return {match.group(1): match.group(0) for match in matches}
 
 def load_all_resources(model_name: str):
+    """
+    모델과 어댑터를 로드하고 필요한 리소스를 반환합니다.
+    """
     base_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.abspath(os.path.join(base_dir, ".."))
 
@@ -58,13 +64,39 @@ def load_all_resources(model_name: str):
     # embed_model = BGEM3FlagModel('BAAI/bge-m3', use_fp16=True)
     embed_model = BGEM3FlagModel(os.path.join(root_dir, "resources", "models", "bge-m3"), use_fp16=False, local_files_only=True)
     # sim_model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
-    sim_model = SentenceTransformer(os.path.join(root_dir, "resources", "models", "paraphrase-MiniLM-L6-v2"))
+    # sim_model = SentenceTransformer(os.path.join(root_dir, "resources", "models", "paraphrase-MiniLM-L6-v2"))
+    sim_model = SentenceTransformer(os.path.join(root_dir, "resources", "models", "bge-m3"))
+
+    # 5. 임베딩 데이터 로드
+    paths = {
+        'dense': os.path.join(root_dir, 'resources', 'embedding_result', 'dense_embeddings.npy'),
+        'colbert': os.path.join(root_dir, 'resources', 'embedding_result', 'colbert_embeddings.pkl'),
+        'sparse': os.path.join(root_dir, 'resources', 'embedding_result', 'sparse_embeddings.json'),
+        'meta': os.path.join(root_dir, 'resources', 'embedding_result', 'metadata.json'),
+    }
+
+    # 데이터 로드
+    dense_embeddings = np.load(paths['dense'])
+    with open(paths['colbert'], 'rb') as f:
+        colbert_embeddings = pickle.load(f)
+    with open(paths['sparse'], encoding='utf-8') as f:
+        sparse_embeddings = json.load(f)
+    with open(paths['meta'], encoding='utf-8') as f:
+        metadata = json.load(f)
+    
+    embedding_data = {
+        'dense': dense_embeddings,
+        'colbert': colbert_embeddings,
+        'sparse': sparse_embeddings,
+        'metadata': metadata
+    }
 
     return {
         "model": model,
         "tokenizer": tokenizer,
         "stop_token_ids": stop_token_ids,
         "embed_model": embed_model,
+        "embedding_data": embedding_data,
         "sim_model": sim_model,
         "device_classes": device_classes,
         "grammar": grammar_rules

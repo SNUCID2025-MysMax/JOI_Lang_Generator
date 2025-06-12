@@ -1,15 +1,2 @@
-import re
-
-text = '''Device Speaker:
-  """
-  Tags:
-    #Speaker
-
-  Enums:
-    switchEnum: [on, off]
-    playbackEnum: [paused, playing, stopped, fast forward, rewinding, buffering]'''
-
-
-match = re.search(r'Device\s+\w+:(?:.*?\n)*?(?=^\s*Enums:)', text, re.MULTILINE)
-if match:
-    print(match.group().strip())
+ls = "Tags:\n    #Speaker\n    #Even\n    #Lower\n    #Odd\n    #SectorA\n    #SectorB\n    #Upper\n    #Wall\n\nMethods:\n  mediaPlayback_speak(text: STRING) -> VOID  # text-to-speech\n\n\n</DEVICES>"
+print(ls)

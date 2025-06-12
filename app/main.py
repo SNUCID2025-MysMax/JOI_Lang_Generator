@@ -34,6 +34,7 @@ with open("./app/resources/things.json", "r", encoding="utf-8") as f:
     DEFAULT_CONNECTED_DEVICES = json.load(f)
 last_connected_devices = DEFAULT_CONNECTED_DEVICES.copy()
 
+# Request 모델 정의
 class GenerateJOICodeRequest(BaseModel):
     sentence: str
     model: str
@@ -41,6 +42,7 @@ class GenerateJOICodeRequest(BaseModel):
     current_time: str
     other_params: Optional[Dict[str, Any]] = None
 
+# 기본 라우트 - html 페이지
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
@@ -51,6 +53,7 @@ async def read_root(request: Request):
         "current_time": current_time,
     })
 
+# JOI 코드 생성 API
 @app.post("/generate_joi_code")
 async def generate_code(request: GenerateJOICodeRequest):
 
@@ -61,7 +64,7 @@ async def generate_code(request: GenerateJOICodeRequest):
         connected_devices = last_connected_devices
     else:
         connected_devices = request.connected_devices
-        last_connected_devices = connected_devices  # 상태 갱신
+        last_connected_devices = connected_devices
 
     result = generate_joi_code(
         sentence=request.sentence,

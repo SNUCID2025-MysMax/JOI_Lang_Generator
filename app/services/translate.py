@@ -2,6 +2,9 @@ import requests
 from app.config import settings
 
 def deepl_translate(command, source="KO", target="EN", auth_key=settings.deeplAPI):
+    """
+    DeepL API를 사용하여 명령어를 번역합니다.
+    """
     url = "https://api-free.deepl.com/v2/translate"
     data = {
         "auth_key": auth_key,

@@ -5,6 +5,10 @@ from .translate import deepl_translate
 THRESHOLD = 0.7 
 
 def extract_classes_by_name(text: str):
+    """
+    문자열로 저장된 디바이스 문서에서 각 디바이스의 설명을 추출해
+    디바이스 이름을 키로, 디바이스 설명을 값으로 하는 딕셔너리를 반환합니다.
+    """
     # pattern = r'class\s+(\w+)\s*:\s*\n\s+"""(.*?)"""'
     pattern = r'Device\s+(\w+)\s*:\s*\n\s+"""(.*?)"""'
     matches = re.finditer(pattern, text, re.DOTALL)
@@ -19,6 +23,10 @@ def extract_classes_by_name(text: str):
 
 
 def extract_accessors(dsl_text: str):
+    """
+    디바이스 설명에서 태그, 속성, 메서드 접근자를 추출합니다.
+    각 접근자는 해당하는 키로 묶인 딕셔너리 형태로 반환됩니다.
+    """
     block_patterns = {
         "Tags": re.compile(r"Tags:\n((?:\s+#[^\n]*\n)+)"),
         # "Enums": re.compile(r"Enums:\n((?:\s+\w+: \[[^\]]+\]\n*)+)"),
@@ -41,9 +49,11 @@ def extract_accessors(dsl_text: str):
 
 def validate_accessors(code: str, tag_list, method_list, attribute_list, model) -> str:
 
-    # 문자열 리터럴을 임시로 보호하기 위한 함수들
     def protect_strings(code):
-        """문자열 리터럴을 플레이스홀더로 치환"""
+        """
+        문자열 리터럴을 플레이스홀더로 치환하여
+        코드 내에서 문자열을 보호합니다.
+        """
         strings = []
         
         # 삼중 따옴표 문자열 (먼저 처리)
@@ -67,7 +77,9 @@ def validate_accessors(code: str, tag_list, method_list, attribute_list, model) 
         return code, strings
     
     def restore_strings(code, strings):
-        """플레이스홀더를 원래 문자열로 복원"""
+        """
+        플레이스홀더를 원래 문자열로 복원합니다.
+        """
         for i, string in enumerate(strings):
             code = code.replace(f"__STRING_PLACEHOLDER_{i}__", string)
         return code
@@ -144,6 +156,9 @@ def validate_tag_group(code: str, devices: list = []) -> bool:
     return True  # 모두 만족
 
 def translate_string_literals(code: str) -> str:
+    """
+    스피커 출력을 위한 문자열 리터럴을 번역합니다.
+    """
     # pattern = r'(["\'])(.*?)(\1)'
     pattern = r'mediaPlayback_speak\(\s*["\'](.*?)["\']\s*\)'
 
@@ -155,12 +170,17 @@ def translate_string_literals(code: str) -> str:
             translated = deepl_translate(content, source="EN", target="KO")
         except Exception:
             translated = content
-        print(content, translated, sep=" -> ")
+        # print(content, translated, sep=" -> ")
         return f"{quote}{translated}{quote}"
 
     return re.sub(pattern, replacer, code)
 
 def validate(code:str, classes: dict, selected_devices: list, devices_available: list, model, is_translate = True) -> str:
+    """
+    JOI 코드의 유효성을 검사하고 필요한 경우 수정합니다.
+    """
+
+    # 각 디바이스 설명에서 접근자, 태그 추출
     classes = {device:extract_accessors(classes[device]) for device in selected_devices}
 
     tags = set()
@@ -171,10 +191,12 @@ def validate(code:str, classes: dict, selected_devices: list, devices_available:
         tags.update(device_info.get("Tags", []))
         attributes.update(device_info.get("Attributes", []))
         methods.update(device_info.get("Methods", []))
-  
+    
+    # 추출한 정보를 바탕으로 유사도 기반 교정 수행(실제로 존재하지 않는 접근자를 교정)
     code = validate_accessors(code, list(tags), list(methods), list(attributes), model)
     devices_available = [[f"#{t}" for t in tags]for tags in devices_available]
 
+    # 태그 그룹으로 유효한 디바이스를 지정할 수 있는지 확인, 유효하지 않으면 빈 문자열 반환
     if not validate_tag_group(code, devices_available):
         return ""
     if is_translate:

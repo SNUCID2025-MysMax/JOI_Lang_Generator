@@ -1,33 +1,14 @@
 import os
 import numpy as np
-import json
-import pickle
-import re
+import re, json, pickle
 from sklearn.metrics.pairwise import cosine_similarity
 from FlagEmbedding import BGEM3FlagModel
 from functools import lru_cache
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-EMBEDDING_DIR = os.path.join(PROJECT_ROOT, 'resources', 'embedding_result')
-paths = {
-    'dense': os.path.join(EMBEDDING_DIR, 'dense_embeddings.npy'),
-    'colbert': os.path.join(EMBEDDING_DIR, 'colbert_embeddings.pkl'),
-    'sparse': os.path.join(EMBEDDING_DIR, 'sparse_embeddings.json'),
-    'meta': os.path.join(EMBEDDING_DIR, 'metadata.json'),
-}
-
-# 데이터 로드
-dense_embeddings = np.load(paths['dense'])
-with open(paths['colbert'], 'rb') as f:
-    colbert_embeddings = pickle.load(f)
-with open(paths['sparse'], encoding='utf-8') as f:
-    sparse_embeddings = json.load(f)
-with open(paths['meta'], encoding='utf-8') as f:
-    metadata = json.load(f)
-
-# 카멜 케이스 분리 함수
 def split_camel_case(identifier):
-    """카멜 케이스를 단어별로 분리"""
+    """
+    문장에서 디바이스를 찾기 위해 카멜 케이스를 단어별로 분리합니다.
+    """
     matches = re.finditer('.+?(?:(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|$)', identifier)
     result = [m.group(0) for m in matches]
     if not result or (len(result) == 1 and result[0] == identifier):
@@ -36,7 +17,10 @@ def split_camel_case(identifier):
 
 # 디바이스가 쿼리에 포함되어 있는지 확인
 def device_in_query(device_name, query, debug=False):
-    """디바이스 이름이 쿼리에 포함되어 있는지 확인 (단어 경계 기반, 복수형 포함)"""
+    """
+    디바이스 이름이 쿼리에 포함되어 있는지 확인합니다. 
+    (단어 경계 기반, 복수형 포함)
+    """
     # 카멜 케이스 분리하고 공백으로 연결, 소문자 변환
     parts = split_camel_case(device_name)
     device_str = ' '.join(parts).lower()
@@ -67,13 +51,17 @@ def device_in_query(device_name, query, debug=False):
         print(f"  -> ✗ 매칭 없음")
     return False
 
+# 캐싱을 이용한 성능 향상
 @lru_cache(maxsize=1000)
 def cached_device_check(device_name, query):
     return device_in_query(device_name, query)
 
 # 우선순위 적용 함수
 def prioritize_devices_in_results(results, query, max_k=7):
-    """쿼리에 언급된 디바이스를 우선순위로 배치하고, 나머지는 점수순 정렬 후 max_k개 반환"""
+    """
+    쿼리에 직접적으로 언급된 디바이스를 우선순위로 배치하고,
+    나머지는 점수순 정렬 후 max_k개를 반환합니다.
+    """
     prioritized = []
     others = []
 
@@ -91,6 +79,7 @@ def prioritize_devices_in_results(results, query, max_k=7):
     # 나머지 디바이스들도 점수 순으로 정렬 (높은 점수부터)
     others.sort(key=lambda x: x['combined_score'], reverse=True)
     
+    # max_k가 기본값이면, 쿼리 길이에 따라 max_k 조정
     if max_k == 7:
         word_count = len(query.split())
         mention_count = len(prioritized)
@@ -109,7 +98,12 @@ def colbert_maxsim_score(query_vecs, doc_vecs):
     return np.mean(max_sims)  # 평균
 
 # 하이브리드 추천 함수 (우선순위 적용)
-def hybrid_recommend_v4(model, query, devices_available=None, top_k=10, max_k=7, weights = (0.35, 0.4, 0.25)):
+def hybrid_recommend(model, query, embedding_data, devices_available=None, top_k=10, max_k=7, weights = (0.35, 0.4, 0.25)):
+
+    dense_embeddings = embedding_data['dense']
+    colbert_embeddings = embedding_data['colbert']
+    sparse_embeddings = embedding_data['sparse']
+    metadata = embedding_data['metadata']
 
     query_emb = model.encode(
         [query], 
@@ -131,8 +125,8 @@ def hybrid_recommend_v4(model, query, devices_available=None, top_k=10, max_k=7,
         for doc_emb in colbert_embeddings
     ]
     
-    # max_score = max(dense_scores.max(), 1e-6)
 
+    # 점수 정규화
     dense_norm = dense_scores / np.max(dense_scores)
     sparse_norm = np.array(sparse_scores) / (np.max(sparse_scores) + 1e-6)
     colbert_norm = np.array(colbert_scores) / (np.max(colbert_scores) + 1e-6)
@@ -142,12 +136,6 @@ def hybrid_recommend_v4(model, query, devices_available=None, top_k=10, max_k=7,
         weights[1] * sparse_norm +
         weights[2] * colbert_norm
     )
-    
-    # combined_scores = (
-    #     weights[0] * dense_scores/max_score +
-    #     weights[1] * np.array(sparse_scores) +
-    #     weights[2] * np.array(colbert_scores)
-    # )
 
     sorted_indices = np.argsort(combined_scores)[::-1]
 
@@ -176,16 +164,36 @@ def hybrid_recommend_v4(model, query, devices_available=None, top_k=10, max_k=7,
 if __name__ == "__main__":
     model = BGEM3FlagModel('BAAI/bge-m3', use_fp16=True)
     
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    # 데이터 로드
+    dense_embeddings = np.load(os.path.join(BASE_DIR, '../resources', 'embedding_result', 'dense_embeddings.npy'))
+
+    with open(os.path.join(BASE_DIR, '../resources', 'embedding_result', 'colbert_embeddings.pkl'), 'rb') as f:
+        colbert_embeddings = pickle.load(f)
+
+    with open(os.path.join(BASE_DIR, '../resources', 'embedding_result', 'sparse_embeddings.json')) as f:
+        sparse_embeddings = json.load(f)
+
+    with open(os.path.join(BASE_DIR, '../resources', 'embedding_result', 'metadata.json')) as f:
+        metadata = json.load(f)
+    
+    embedding_data = {
+        'dense': dense_embeddings,
+        'colbert': colbert_embeddings,
+        'sparse': sparse_embeddings,
+        'metadata': metadata
+    }
     
     # 테스트 쿼리
     query = "If the air conditioner is off, the temperature is above 29 degrees, and the humidity is above 70%, set the dehumidifier to dehumidify mode and turn it on. If the curtains are open and the lights are off, close the curtains and turn on the lights."
     print(len(query.split()))
-    results = hybrid_recommend_v4(model, query)
+    # results = hybrid_recommend(model, query, embedding_data)
     
     print(f"Query: {query}")
-    print("Results with priority:")
-    for i, result in enumerate(results):
-        device_mentioned = device_in_query(result['key'], query, debug=True)
-        priority_mark = "★" if device_mentioned else " "
-        print(f"{priority_mark} {i+1}. {result['key']} (Score: {result['combined_score']:.4f})")
-        print()  # 디버깅 출력과 구분하기 위한 빈 줄
+    # print("Results with priority:")
+    # for i, result in enumerate(results):
+    #     device_mentioned = device_in_query(result['key'], query, debug=True)
+    #     priority_mark = "★" if device_mentioned else " "
+    #     print(f"{priority_mark} {i+1}. {result['key']} (Score: {result['combined_score']:.4f})")
+    #     print()  # 디버깅 출력과 구분하기 위한 빈 줄

@@ -3,34 +3,15 @@
 import os, re, json, copy, torch
 import concurrent.futures
 from datetime import datetime
+from transformers import TextStreamer
 from .translate import deepl_translate
 from .embedding import hybrid_recommend
 from .validate import validate
-from .joi_tool import parse_scenarios, extract_last_code_block
-
-
+from .joi_tool import parse_scenarios, extract_last_code_block, extract_device_tags, add_device_tags
 import logging
 logger = logging.getLogger("uvicorn")
 
-TIME_OUT = 15
-
-from transformers import TextStreamer
-
-# == 모델 호출 함수 == (타임아웃 용)
-def call_model(model, inputs, stop_token_ids, tokenizer):
-    return model.generate(
-        input_ids=inputs,
-        eos_token_id=stop_token_ids,
-        pad_token_id=tokenizer.pad_token_id,
-        max_new_tokens=1024,
-        use_cache=True,
-        do_sample=False,  # 더 일관된 출력을 위해
-        temperature=0.1,   # 낮은 temperature
-        repetition_penalty=1.1,  # 반복 방지
-        streamer = TextStreamer(tokenizer, skip_prompt = True),
-    )
-
-# === JOI 코드 생성 함수 ===
+# JOI 코드 생성 함수
 def generate_joi_code(
     sentence: str,
     model: str,
@@ -39,99 +20,95 @@ def generate_joi_code(
     other_params: dict = None,
     model_resources: dict = None
 ) -> dict:
+    """
+    Requset로부터 JOI 코드를 생성, 검증 후 반환합니다.
+    """
+
+    # 모델 리소스 추출
     llm_model = model_resources["model"]
     tokenizer = model_resources["tokenizer"]
     stop_token_ids = model_resources["stop_token_ids"]
     embed_model = model_resources["embed_model"]
+    embedding_data = model_resources["embedding_data"]
     sim_model = model_resources["sim_model"]
     device_classes = copy.deepcopy(model_resources["device_classes"])
     grammar = model_resources["grammar"]
 
     start = datetime.now()
 
-    # == 디바이스 및 태그 정보 추출 ==
-    # 각 디바이스별 태그 접근자 리스트
-    unique_tag_sets = {frozenset(connected_devices[k]['tags']) for k in connected_devices}
-    tag_sets = [list(tag_set) for tag_set in unique_tag_sets]
-
-    # 디바이스별 장소, 사용자 지정 태그 추출
-    tag_device = {}
-    for tag_set in tag_sets:
-        device_tags = [tag for tag in tag_set if tag in device_classes]
-        other_tags = [tag for tag in tag_set if tag not in device_classes]
-
-        for device_tag in device_tags:
-            if device_tag not in tag_device:
-                tag_device[device_tag] = []
-            tag_device[device_tag].extend(other_tags)
-
-    # 디바이스 클래스 docs에 태그 주석 추가
-    for device_tag, extra_tags in tag_device.items():
-        doc = device_classes[device_tag]
-        lines = doc.splitlines()
-        new_lines = lines[:4] + [f"    #{tag}" for tag in sorted(set(extra_tags))] + lines[4:]
-        device_classes[device_tag] = "\n".join(new_lines)
-
-    service_selected = set(i["key"] for i in hybrid_recommend(embed_model, sentence, list(tag_device.keys()), max_k=10))
-    service_selected.add("Clock")
-
-    service_doc = "\n---\n".join([device_classes[i] for i in service_selected])
-
-    # 최소한의 TTS에 필요한 Speaker 정보 추가
-    if ("Speaker" not in service_selected):
-        match = re.search(r'Device\s+\w+:(?:.*?\n)*?(?=^\s*Enums:)', service_selected["Speaker"], re.MULTILINE)
-        if match:
-            speaker_info = match.group().strip() + "\n\nMethods:\n  mediaPlayback_speak(text: STRING) -> VOID  # text-to-speech\n\n"
-            service_doc += "\n---\n" + speaker_info
-        service_selected.add("Speaker")
-
-    # == 문장 번역 ==
+    # 명령어 번역
     try:
         sentence_translated = deepl_translate(sentence)
     except Exception:
         sentence_translated = sentence 
     logger.info(f"Translated Sentence: {sentence_translated}")
 
-    # sentence_translated = sentence
+    # 디바이스 및 태그 정보 추출
+    tag_device, tag_sets = extract_device_tags(connected_devices, device_classes)
 
-    # == 모델 호출 및 생성 ==
+    # 디바이스 클래스 docs에 태그 주석 추가
+    device_classes = add_device_tags(device_classes, tag_device)
+
+    # 명령어로부터 필요한 디바이스를 추출 - BGE-M3 모델 이용
+    service_selected = set(i["key"] for i in hybrid_recommend(embed_model, sentence_translated, embedding_data, list(tag_device.keys())))
+    service_selected.add("Clock") # Clock의 Delay 기능을 위해 항상 포함
+    
+    service_doc = "\n---\n".join([device_classes[i] for i in service_selected])
+
+    # 최소한의 TTS에 필요한 Speaker 정보 추가
+    if ("Speaker" not in service_selected):
+        # 현재 Speaker 디바이스가 사용 가능한 디바이스 목록에 있을 경우 포함
+        speaker_doc = device_classes.get("Speaker", "")
+        if speaker_doc:
+            match = re.search(r'Device\s+\w+:(?:.*?\n)*?(?=^\s*Enums:)', speaker_doc, re.MULTILINE)
+            if match:
+                speaker_info = match.group().strip() + "\n\nMethods:\n  mediaPlayback_speak(text: STRING) -> VOID  # text-to-speech\n\n"
+                service_doc += "\n---\n" + speaker_info
+                service_selected.add("Speaker")
+
+    # 모델 호출 및 생성
+    prompt = f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""
+    
+    if other_params:
+        other_params_str = "\n".join(f"{k}: {v}" for k, v in other_params.items())
+        prompt += f"\n\n<USER_INFO>\n{other_params_str}\n</USER_INFO>"
+
     messages = [
-        {"role": "system", "content": f"<grammar>\n{grammar}</grammar>\n\n<devices>{service_doc}</devices>",},
-        {"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""}
+        {"role": "system", "content": f"{grammar}\n<DEVICES>\n{service_doc}\n</DEVICES>",},
+        {"role": "user", "content": prompt}
     ]
 
     inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
 
     start_inference = datetime.now()
-    # outputs = llm_model.generate(
-    #     input_ids=inputs,
-    #     eos_token_id=stop_token_ids,
-    #     pad_token_id=tokenizer.pad_token_id,
-    #     # max_new_tokens=128,
-    #     use_cache=True
-    # )
 
-    response = ""
-    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-        future = executor.submit(call_model, llm_model, inputs, stop_token_ids, tokenizer)
-        try:
-            outputs = future.result(timeout=TIME_OUT)
-            generated_ids = outputs[0][len(inputs[0]):]
-            
-            # # Fixed condition check
-            # if len(generated_ids) > 0 and generated_ids[-1].item() in stop_token_ids:
-            #     generated_ids = generated_ids[:-1]
-            stop_indexes = [i for i, tok_id in enumerate(generated_ids) if tok_id in stop_token_ids]
-            if stop_indexes:
-                generated_ids = generated_ids[:stop_indexes[0]]
+    outputs = llm_model.generate(
+        input_ids=inputs,
+        eos_token_id=stop_token_ids,
+        pad_token_id=tokenizer.pad_token_id,
+        max_new_tokens=1024,
+        use_cache=True,
+        # 더 일관된 출력을 위한 인자들
+        do_sample=False,
+        temperature=0.1,
+        repetition_penalty=1.1,
+        streamer = TextStreamer(tokenizer, skip_prompt = True),
+    )
 
-            response = tokenizer.decode(generated_ids, skip_special_tokens=True).strip()
-        except concurrent.futures.TimeoutError:
-            response = ""
+    end_inference = datetime.now()
 
-    end = datetime.now()
+    generated_ids = outputs[0][len(inputs[0]):]
+    
+    # stop_token_ids에 해당하는 토큰이 생성된 경우, 해당 인덱스까지 잘라냄
+    stop_indexes = [i for i, tok_id in enumerate(generated_ids) if tok_id in stop_token_ids]
+    if stop_indexes:
+        generated_ids = generated_ids[:stop_indexes[0]]
+
+    response = tokenizer.decode(generated_ids, skip_special_tokens=True).strip()
+
     # logger.info(f"\nModel Response:\n{response}")
-    # --- 파싱 ---
+    
+    # 생성한 텍스트에서 코드 추출
     try:
         code = parse_scenarios(extract_last_code_block(response))['code']
     except:
@@ -140,13 +117,12 @@ def generate_joi_code(
         except:
             code = [{'name': 'Scenario1', 'cron': '', 'period': -1, 'code': ''}]
 
-    # --- 정제 ---
-    # 각 코드 조각 별로 교정
+    # 각 코드 조각 별로 정제, 검증
     code_ret = []
     for c in code:
         code_piece = c["code"].strip()
         # 유사도 기반 교정 & 태그 검사 & 영어 문자열 번역
-        # 인자: 코드, docs, 사용 가능한 디바이스, 디바이스 별 태그 집합, sentence 모델
+        # 인자: 코드, docs, 사용 가능한 디바이스, 디바이스 별 태그 집합, sentence transformer 모델
         code_piece = validate(code_piece, device_classes, list(tag_device.keys()), tag_sets, sim_model)
         c["code"] = code_piece
         if (c["code"]==""):
@@ -154,11 +130,14 @@ def generate_joi_code(
         code_ret.append(c)
 
     logger.info(f"\nReturn:\n{code_ret}")
+
+    end = datetime.now()
+    
     return {
         "code": code_ret,
         "log": {
             "response_time": f"{(end - start).total_seconds():.3f} seconds",
-            "inference_time": f"{(end - start_inference).total_seconds():.3f} seconds",
+            "inference_time": f"{(end_inference - start_inference).total_seconds():.3f} seconds",
             "translated_sentence": sentence_translated,
             "mapped_devices": list(service_selected)
         }

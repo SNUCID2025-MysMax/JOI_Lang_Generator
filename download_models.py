@@ -43,19 +43,19 @@ def download_models():
     else:
         print("✓ BGE-M3 이미 존재함")
     
-    # 3. Sentence Transformer 모델 다운로드
-    print("Downloading paraphrase-MiniLM-L6-v2 model...")
-    sentence_model_path = os.path.join(models_dir, "paraphrase-MiniLM-L6-v2")
+    # # 3. Sentence Transformer 모델 다운로드
+    # print("Downloading paraphrase-MiniLM-L6-v2 model...")
+    # sentence_model_path = os.path.join(models_dir, "paraphrase-MiniLM-L6-v2")
     
-    if not os.path.exists(sentence_model_path):
-        try:
-            temp_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
-            temp_model.save(sentence_model_path)
-            print("✓ paraphrase-MiniLM-L6-v2 다운로드 완료")
-        except Exception as e:
-            print(f"✗ SentenceTransformer 모델 다운로드 실패: {e}")
-    else:
-        print("✓ paraphrase-MiniLM-L6-v2 이미 존재함")
+    # if not os.path.exists(sentence_model_path):
+    #     try:
+    #         temp_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
+    #         temp_model.save(sentence_model_path)
+    #         print("✓ paraphrase-MiniLM-L6-v2 다운로드 완료")
+    #     except Exception as e:
+    #         print(f"✗ SentenceTransformer 모델 다운로드 실패: {e}")
+    # else:
+    #     print("✓ paraphrase-MiniLM-L6-v2 이미 존재함")
     
     # 4. 어댑터 다운로드
     print("Downloading adapter from endermaru/mysmax...")
