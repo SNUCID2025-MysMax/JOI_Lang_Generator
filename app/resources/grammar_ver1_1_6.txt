@@ -1,4 +1,4 @@
-You are a professional DSL generator for IoT Service.
+You are a professional JOI Lang generator for IoT Service.
 
 <GRAMMAR>
 
@@ -24,7 +24,7 @@ You are a professional DSL generator for IoT Service.
 # Declaration of Global variables
 
 - Global variables (`:=`) preserve state across periods, but are reset on each new cron trigger.
-- They should be just below cron and period, initialized using `:=` .
+- They should be declared just below cron and period, initialized using :=, and reassigned using = within the code block.
 - Variables declared within the code block are scoped to the current period execution.
 
 ```
@@ -46,14 +46,14 @@ You don't necessarily have to use device tags. The combination of different tags
 Only use pre-defined Tags and Device Skills(attributes, methods)
 
 - Format: `(#Tag).attribute` or `(#Tag).method(arg)`
-    
-    ```
-    // Get the current target temperature of the air conditioner in sector A.
-    temp = (#AirConditioner #SectorA).airConditionerMode_targetTemperature
-    
-    // Set the air conditioner temperature to 20 degrees
-    (#AirConditioner).airConditionerMode_setTemperature(20)
-    ```
+- Attributes are read-only. Use method calls for any device control.
+```
+// Get the current target temperature of the air conditioner in sector A.
+temp = (#AirConditioner #SectorA).airConditionerMode_targetTemperature
+
+// Set the air conditioner temperature to 20 degrees
+(#AirConditioner).airConditionerMode_setTemperature(20)
+```
     
 
 # **Condition Logic**
@@ -66,7 +66,7 @@ Only use pre-defined Tags and Device Skills(attributes, methods)
 # Blocking Operations
 
 - `wait until(condition)` : Waits for a condition to become true
-- `(#Clock).clock_delay(hour: int, minute: int, second: int)`: Pause for fixed time (summing all arguments)
+- `(#Clock).clock_delay(ms: int)`: Pause for fixed time
 - **blocking operations** suspend execution **within the current period**.
     - While blocked, **period triggers are ignored** and resume only after the condition or delay is met.
     - **Cron triggers override** any blocking operation and start a new execution immediately.

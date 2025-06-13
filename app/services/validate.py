@@ -180,6 +180,9 @@ def validate(code:str, classes: dict, selected_devices: list, devices_available:
     JOI 코드의 유효성을 검사하고 필요한 경우 수정합니다.
     """
 
+    # 주석 제거(Python 스타일)
+    code = '\n'.join([re.sub(r'#\s.*', '', line).rstrip() for line in code.splitlines()])
+
     # 각 디바이스 설명에서 접근자, 태그 추출
     classes = {device:extract_accessors(classes[device]) for device in selected_devices}
 
@@ -202,24 +205,6 @@ def validate(code:str, classes: dict, selected_devices: list, devices_available:
     if is_translate:
         code = translate_string_literals(code)
     
-    return code
-
-
-# 코드 교정만 수행
-def validate_tmp(code:str, classes: dict, selected_devices: list, model) -> str:
-    classes = {device:extract_accessors(classes[device]) for device in selected_devices}
-
-    tags = set()
-    attributes = set()
-    methods = set()
-
-    for device_info in classes.values():
-        tags.update(device_info.get("Tags", []))
-        attributes.update(device_info.get("Attributes", []))
-        methods.update(device_info.get("Methods", []))
-    
-    
-    code = validate_accessors(code, list(tags), list(methods), list(attributes), model)
     return code
 
 if __name__ == "__main__":

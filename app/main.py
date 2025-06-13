@@ -30,7 +30,7 @@ MODEL_RESOURCES = load_all_resources(MODEL_NAME)
 logger.info(f"resources loaded for {MODEL_NAME}")
 
 # 기본 연결된 장치 정보 로드
-with open("./app/resources/things.json", "r", encoding="utf-8") as f:
+with open("./app/resources/things_smart_farm.json", "r", encoding="utf-8") as f:
     DEFAULT_CONNECTED_DEVICES = json.load(f)
 last_connected_devices = DEFAULT_CONNECTED_DEVICES.copy()
 
