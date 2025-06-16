@@ -8,15 +8,15 @@ Device AirConditioner:
     acModeEnum: [auto, cool, heat]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     airConditionerMode_airConditionerMode: acModeEnum  # current mode
     airConditionerMode_supportedAcModes: STRING  # supported: "auto|cool|heat" (plain STRING)
     airConditionerMode_targetTemperature: DOUBLE  # target temperature
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     airConditionerMode_setAirConditionerMode(mode: acModeEnum) -> VOID
     airConditionerMode_setTemperature(temperature: DOUBLE) -> VOID
   """
@@ -32,14 +32,14 @@ Device AirPurifier:
     purifierFanEnum: [auto, low, medium, high, sleep, quiet, windFree, off]  # sleep=low noise, quiet=low noise, windFree=no cold air
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     airPurifierFanMode_airPurifierFanMode: purifierFanEnum # current mode of the fan
     airPurifierFanMode_supportedAirPurifierFanModes: STRING  # supported: "auto|low|medium|high|sleep|..." (plain STRING)
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     airPurifierFanMode_setAirPurifierFanMode(mode: purifierFanEnum) -> VOID
   """
 
@@ -159,14 +159,14 @@ Device Camera:
     switchEnum: [on, off]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     camera_image: BINARY  # latest captured image
     camera_video: BINARY  # latest captured video
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     camera_take() -> BINARY  # take picture, return image data
     camera_takeTimelapse(duration: DOUBLE, speed: DOUBLE) -> BINARY  # take timelapse video (duration in seconds)
   """
@@ -254,13 +254,13 @@ Device Dehumidifier:
                           internalCare, freezeProtection, continuousDehumidifying, thawingFrozenInside]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     dehumidifierMode_dehumidifierMode: dehumidifierModeEnum  # current dehumidifier mode
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     dehumidifierMode_setDehumidifierMode(mode: dehumidifierModeEnum) -> VOID
   """
 
@@ -274,13 +274,13 @@ Device Dishwasher:
     dishModeEnum: [eco, intense, auto, quick, rinse, dry]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     dishwasherMode_dishwasherMode: dishModeEnum  # current dishwasher mode
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     dishwasherMode_setDishwasherMode(mode: dishModeEnum) -> VOID
   """
 
@@ -319,14 +319,14 @@ Device Fan:
     switchEnum: [on, off]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     fanControl_fanSpeed: INTEGER  # current fan speed (RPM)
     fanControl_percent: INTEGER  # current fan speed (0-100%)
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     fanControl_setFanSpeed(speed: INTEGER) -> VOID  # set fan speed (RPM)
     fanControl_setPercent(percent: INTEGER) -> VOID  # set fan speed (0-100%)
   """
@@ -342,14 +342,14 @@ Device Feeder:
     unitEnum: [grams, pounds, ounces, servings]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     feederOperatingState_feederOperatingState: stateEnum  # feeder state
     feederPortion_feedPortion: DOUBLE  # feed portion amount
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     feederOperatingState_startFeeding() -> VOID  # start feeding process
     feederPortion_setFeedPortion(portion: DOUBLE, unit: unitEnum) -> VOID  # set feed portion and unit
   """
@@ -396,13 +396,13 @@ Device Humidifier:
     humidModeEnum: [auto, low, medium, high]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     humidifierMode_humidifierMode: humidModeEnum  # current humidifier mode
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     humidifierMode_setHumidifierMode(mode: humidModeEnum) -> VOID
   """
 
@@ -426,14 +426,14 @@ Device Irrigator:
     stateEnum: [idle, watering, error]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     irrigatorPortion_waterPortion: DOUBLE  # water portion amount
     irrigatorOperatingState_irrigatorOperatingState: stateEnum  # irrigator state
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     irrigatorPortion_setWaterPortion(portion: DOUBLE, unit: unitEnum) -> VOID
     irrigatorOperatingState_startWatering() -> VOID  # start watering process
   """
@@ -459,7 +459,7 @@ Device Light:
     switchEnum: [on, off]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     colorControl_color: STRING  # color in JSON format: {"hue":"0-100%", "saturation":"0-100%"}
     colorControl_hue: DOUBLE  # hue (0-100%)
     colorControl_saturation: DOUBLE  # saturation (0-100%)
@@ -467,9 +467,9 @@ Device Light:
     switchLevel_levelRange: STRING  # level constraints: "min|max" (e.g. "30|60") (plain STRING)
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     colorControl_setColor(color: STRING) -> VOID  # set color: "RED|GREEN|BLUE" (e.g. "255|255|255")
     colorControl_setHue(hue: DOUBLE) -> VOID  # set hue (0-100%)
     colorControl_setSaturation(saturation: DOUBLE) -> VOID  # set saturation (0-100%)
@@ -532,16 +532,16 @@ Device Pump:
     pumpEnum: [open, closed]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     pumpOperationMode_currentOperationMode: pumpOpModeEnum  # current effective operation mode
     pumpOperationMode_operationMode: pumpOpModeEnum  # current operation mode
     pumpOperationMode_supportedOperationModes: STRING  # supported operation modes: "normal|minimum|..." (plain STRING)
     pump_pump: pumpEnum  # pump open/closed state
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     pumpOperationMode_setOperationMode(opMode: pumpOpModeEnum) -> VOID
     pump_close() -> VOID
     pump_open() -> VOID
@@ -556,15 +556,15 @@ Device Refrigerator:
     switchEnum: [on, off]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     refrigeration_defrost: switchEnum  # defrost on/off status
     refrigeration_rapidCooling: switchEnum  # rapid cooling on/off status
     refrigeration_rapidFreezing: switchEnum  # rapid freezing on/off status
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     refrigeration_setDefrost(defrost: switchEnum) -> VOID  # set defrost on/off
     refrigeration_setRapidCooling(rapidCooling: switchEnum) -> VOID  # set rapid cooling on/off
     refrigeration_setRapidFreezing(rapidFreezing: switchEnum) -> VOID  # set rapid freezing on/off
@@ -580,13 +580,13 @@ Device RobotCleaner:
     cleanModeEnum: [auto, part, repeat, manual, stop, map]  # part=spot clean
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     robotCleanerCleaningMode_robotCleanerCleaningMode: cleanModeEnum  # current cleaning mode
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     robotCleanerCleaningMode_setRobotCleanerCleaningMode(mode: cleanModeEnum) -> VOID  # set cleaning mode
   """
 
@@ -621,13 +621,13 @@ Device Siren:
     sirenModeEnum: [both, off, siren, strobe]  # both=siren+strobe, siren=sound only, strobe=light only
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     sirenMode_sirenMode: sirenModeEnum  # current siren mode
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     sirenMode_setSirenMode(mode: sirenModeEnum) -> VOID
   """
 
@@ -640,16 +640,16 @@ Device SmartPlug:
     switchEnum: [on, off]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     voltageMeasurement_voltage: DOUBLE  # measured voltage (V)
     powerMeter_power: DOUBLE  # measured power consumption (W)
     powerMeter_powerConsumption: STRING  # energy consumption: "unit|value" (e.g. "kWh|30") (plain STRING)
     currentMeasurement_current: DOUBLE  # measured amperage (A)
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
   """
 
 Device SmokeDetector:
@@ -696,14 +696,14 @@ Device Speaker:
     playbackEnum: [paused, playing, stopped, fast forward, rewinding, buffering]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     mediaPlayback_playbackStatus: playbackEnum  # playback status
     mediaPlayback_supportedPlaybackCommands: STRING  # supported playback commands: "mediaPlayback_fastForward|..." (plain STRING)
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     mediaPlayback_fastForward() -> VOID
     mediaPlayback_pause() -> VOID
     mediaPlayback_play(source: STRING) -> VOID  # play media from source
@@ -723,13 +723,13 @@ Device Recorder:
     recordEnum: [idle, recording]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     audioRecord_recordStatus: recordEnum  # recording status
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     audioRecord_record(file: STRING, duration: DOUBLE) -> VOID  # record audio to file for duration
   """
 
@@ -742,12 +742,12 @@ Device Switch:
     switchEnum: [on, off]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
   """
 
 Device Television:
@@ -760,16 +760,16 @@ Device Television:
     muteEnum: [muted, unmuted]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
     audioVolume_volume: INTEGER  # current volume level
     audioMute_muteStatus: muteEnum  # mute status
     tvChannel_tvChannel: INTEGER  # current TV channel number
     tvChannel_tvChannelName: STRING  # current TV channel name
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
     audioVolume_setVolume(volume: INTEGER) -> VOID  # set volume level
     audioVolume_volumeDown() -> VOID
     audioVolume_volumeUp() -> VOID
@@ -877,12 +877,12 @@ Device Relay:
     switchEnum: [on, off]
 
   Attributes:
-    switch_switch: switchEnum  # on/off state
+    switch_switch: switchEnum  # power state (on/off)
 
   Methods:
-    switch_off() -> VOID
-    switch_on() -> VOID
-    switch_toggle() -> VOID
+    switch_off() -> VOID  # turn off
+    switch_on() -> VOID  # turn on
+    switch_toggle() -> VOID  # toggle power state
   """
 
 Device Timer:

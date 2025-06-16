@@ -1,7 +1,6 @@
 # run.py
 
-import os, re, json, copy, torch
-import concurrent.futures
+import os, re, json, copy
 from datetime import datetime
 from transformers import TextStreamer
 from .translate import deepl_translate
@@ -20,12 +19,8 @@ def generate_joi_code(
     other_params: dict = None,
     model_resources: dict = None
 ) -> dict:
-    """
-    Requset로부터 JOI 코드를 생성, 검증 후 반환합니다.
-    """
-
     # 모델 리소스 추출
-    llm_model = model_resources["model"]
+    client = model_resources["model"]
     tokenizer = model_resources["tokenizer"]
     stop_token_ids = model_resources["stop_token_ids"]
     embed_model = model_resources["embed_model"]
@@ -34,14 +29,17 @@ def generate_joi_code(
     device_classes = copy.deepcopy(model_resources["device_classes"])
     grammar = model_resources["grammar"]
 
-    start = datetime.now()
 
+    # # gpt는 번역 없이
+    # sentence_translated = sentence
     # 명령어 번역
     try:
         sentence_translated = deepl_translate(sentence)
     except Exception:
         sentence_translated = sentence 
     logger.info(f"Translated Sentence: {sentence_translated}")
+
+    start = datetime.now()
 
     # 디바이스 및 태그 정보 추출
     tag_device, tag_sets = extract_device_tags(connected_devices, device_classes)
@@ -66,57 +64,34 @@ def generate_joi_code(
                 service_doc += "\n---\n" + speaker_info
                 service_selected.add("Speaker")
 
-    # 모델 호출 및 생성
-    prompt = f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""
-    
-    if other_params:
-        other_params_str = json.dumps(other_params, indent=2, ensure_ascii=False)
-        prompt += f"\n\n<USER_INFO>\n{other_params_str}\n</USER_INFO>"
 
+    # == 모델 호출 및 생성 ==
     messages = [
-        {"role": "system", "content": f"{grammar}\n<DEVICES>\n{service_doc}\n</DEVICES>",},
-        {"role": "user", "content": prompt}
+        {"role": "system", "content": f"<grammar>\n{grammar}</grammar>\n\n<devices>{service_doc}</devices>",},
+        {"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""}
     ]
-
-    inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
 
     start_inference = datetime.now()
 
-    outputs = llm_model.generate(
-        input_ids=inputs,
-        eos_token_id=stop_token_ids,
-        pad_token_id=tokenizer.pad_token_id,
-        max_new_tokens=1024,
-        use_cache=True,
-        # 더 일관된 출력을 위한 인자들
-        do_sample=False,
-        temperature=0.1,
-        repetition_penalty=1.1,
-        streamer = TextStreamer(tokenizer, skip_prompt = True),
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=messages,
     )
 
     end_inference = datetime.now()
 
-    generated_ids = outputs[0][len(inputs[0]):]
+    response = response.choices[0].message.content.strip()
+
     
-    # stop_token_ids에 해당하는 토큰이 생성된 경우, 해당 인덱스까지 잘라냄
-    stop_indexes = [i for i, tok_id in enumerate(generated_ids) if tok_id in stop_token_ids]
-    if stop_indexes:
-        generated_ids = generated_ids[:stop_indexes[0]]
-
-    response = tokenizer.decode(generated_ids, skip_special_tokens=True).strip()
-
     # logger.info(f"\nModel Response:\n{response}")
     
     # 생성한 텍스트에서 코드 추출
     try:
         code = parse_scenarios(extract_last_code_block(response))['code']
-    except Exception as e:
-        print(f"Error extracting code block: {e}")
+    except:
         try:
             code = parse_scenarios(response)['code']
-        except Exception as e:
-            logger.error(f"Error parsing scenarios: {e}")
+        except:
             code = [{'name': 'Scenario1', 'cron': '', 'period': -1, 'code': ''}]
 
     # 각 코드 조각 별로 정제, 검증

@@ -98,7 +98,7 @@ def colbert_maxsim_score(query_vecs, doc_vecs):
     return np.mean(max_sims)  # 평균
 
 # 하이브리드 추천 함수 (우선순위 적용)
-def hybrid_recommend(model, query, embedding_data, devices_available=None, top_k=10, max_k=7, weights = (0.35, 0.4, 0.25)):
+def hybrid_recommend(model, query, embedding_data, devices_available=None, max_k=7, weights = (0.35, 0.4, 0.25)):
 
     dense_embeddings = embedding_data['dense']
     colbert_embeddings = embedding_data['colbert']

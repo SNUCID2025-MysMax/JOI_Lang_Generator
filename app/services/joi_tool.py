@@ -8,6 +8,10 @@ def parse_scenarios(script: str):
     """
     생성된 문자열에서 시나리오 코드를 파싱하여 딕셔너리 형태로 반환합니다.
     """
+
+    # 주석 제거(Python 스타일)
+    script = '\n'.join([re.sub(r'#\s.*', '', line).rstrip() for line in script.splitlines()])
+
     parts = [part.strip() for part in script.strip().split('---') if part.strip()]
     scenarios = []
 

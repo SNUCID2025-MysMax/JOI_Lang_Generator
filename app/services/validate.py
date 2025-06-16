@@ -40,7 +40,9 @@ def extract_accessors(dsl_text: str):
         for name, pattern in block_patterns.items()
         if pattern.search(dsl_text)
     }
-
+    
+    if blocks.get("Tags"):
+        blocks["Tags"] = [line.strip() for line in blocks.get("Tags", [])]
     if blocks.get("Attributes"):
         blocks["Attributes"] = [line.split(":")[0].strip() for line in blocks.get("Attributes", [])]
     if blocks.get("Methods"):
@@ -87,9 +89,21 @@ def validate_accessors(code: str, tag_list, method_list, attribute_list, model) 
     # 문자열 보호
     protected_code, string_literals = protect_strings(code)
 
-    tag_embeddings = model.encode(tag_list, convert_to_tensor=True)
-    method_embeddings = model.encode(method_list, convert_to_tensor=True)
-    attribute_embeddings = model.encode(attribute_list, convert_to_tensor=True)
+    if not tag_list:
+        tag_embeddings = None
+    else:
+        tag_embeddings = model.encode(tag_list, convert_to_tensor=True)
+
+    if not method_list:
+        method_embeddings = None
+    else:
+        method_embeddings = model.encode(method_list, convert_to_tensor=True)
+
+    if not attribute_list:
+        attribute_embeddings = None
+    else:
+        attribute_embeddings = model.encode(attribute_list, convert_to_tensor=True)
+
 
     tag_pattern = r"(#[a-zA-Z0-9_]+)\b"
     method_pattern = r"\.([a-zA-Z_][a-zA-Z0-9_]*)\("
@@ -97,9 +111,9 @@ def validate_accessors(code: str, tag_list, method_list, attribute_list, model) 
 
     def validate_tag(match):
         tag = match.group(1)
-        if tag in tag_list:
+        if tag in tag_list or tag_embeddings is None:
             return tag
-        query = model.encode(tag, convert_to_tensor=True)
+        query = model.encode(tag, convert_to_tensor=True).to(tag_embeddings.device)
         scores = util.cos_sim(query, tag_embeddings)[0]
         best_score = scores.max().item()
         if best_score < THRESHOLD:
@@ -109,9 +123,9 @@ def validate_accessors(code: str, tag_list, method_list, attribute_list, model) 
     
     def validate_method(match):
         method = match.group(1)
-        if method in method_list:
+        if method in method_list or method_embeddings is None:
             return f".{method}("
-        query = model.encode(method, convert_to_tensor=True)
+        query = model.encode(method, convert_to_tensor=True).to(method_embeddings.device)
         scores = util.cos_sim(query, method_embeddings)[0]
         best_score = scores.max().item()
         if best_score < THRESHOLD:
@@ -121,9 +135,9 @@ def validate_accessors(code: str, tag_list, method_list, attribute_list, model) 
 
     def validate_attribute(match):
         attr = match.group(1)
-        if attr in attribute_list:
+        if attr in attribute_list or attribute_embeddings is None:
             return f".{attr}"
-        query = model.encode(attr, convert_to_tensor=True)
+        query = model.encode(attr, convert_to_tensor=True).to(attribute_embeddings.device)
         scores = util.cos_sim(query, attribute_embeddings)[0]
         best_score = scores.max().item()
         if best_score < THRESHOLD:
@@ -164,14 +178,13 @@ def translate_string_literals(code: str) -> str:
 
     # 대체 함수 정의
     def replacer(match):
-        quote = match.group(1)
-        content = match.group(2)
+        content = match.group(1)
         try:
             translated = deepl_translate(content, source="EN", target="KO")
         except Exception:
             translated = content
         # print(content, translated, sep=" -> ")
-        return f"{quote}{translated}{quote}"
+        return f'mediaPlayback_speak("{translated}")'
 
     return re.sub(pattern, replacer, code)
 
@@ -179,9 +192,6 @@ def validate(code:str, classes: dict, selected_devices: list, devices_available:
     """
     JOI 코드의 유효성을 검사하고 필요한 경우 수정합니다.
     """
-
-    # 주석 제거(Python 스타일)
-    code = '\n'.join([re.sub(r'#\s.*', '', line).rstrip() for line in code.splitlines()])
 
     # 각 디바이스 설명에서 접근자, 태그 추출
     classes = {device:extract_accessors(classes[device]) for device in selected_devices}
