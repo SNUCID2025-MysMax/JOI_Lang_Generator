@@ -6,58 +6,6 @@
     "tags": [
       "Light",
       "livingroom"
-    ],
-    "functions": [
-      {
-        "name": "colorControl_setColor"
-      },
-      {
-        "name": "colorControl_setHue"
-      },
-      {
-        "name": "colorControl_setSaturation"
-      },
-      {
-        "name": "switch_on"
-      },
-      {
-        "name": "switch_off"
-      },
-      {
-        "name": "switch_toggle"
-      },
-      {
-        "name": "switchLevel_setLevel"
-      },
-      {
-        "name": "switchLevel_alert"
-      }
-    ],
-    "values": [
-      {
-        "name": "colorControl_color",
-        "latest": null
-      },
-      {
-        "name": "colorControl_hue",
-        "latest": null
-      },
-      {
-        "name": "colorControl_saturation",
-        "latest": null
-      },
-      {
-        "name": "switch_switch",
-        "latest": "off"
-      },
-      {
-        "name": "switchLevel_level",
-        "latest": null
-      },
-      {
-        "name": "switchLevel_levelRange",
-        "latest": null
-      }
     ]
   },
   "virtual_light_livingroom_2": {
@@ -67,58 +15,6 @@
     "tags": [
       "Light",
       "livingroom"
-    ],
-    "functions": [
-      {
-        "name": "colorControl_setColor"
-      },
-      {
-        "name": "colorControl_setHue"
-      },
-      {
-        "name": "colorControl_setSaturation"
-      },
-      {
-        "name": "switch_on"
-      },
-      {
-        "name": "switch_off"
-      },
-      {
-        "name": "switch_toggle"
-      },
-      {
-        "name": "switchLevel_setLevel"
-      },
-      {
-        "name": "switchLevel_alert"
-      }
-    ],
-    "values": [
-      {
-        "name": "colorControl_color",
-        "latest": null
-      },
-      {
-        "name": "colorControl_hue",
-        "latest": null
-      },
-      {
-        "name": "colorControl_saturation",
-        "latest": null
-      },
-      {
-        "name": "switch_switch",
-        "latest": "off"
-      },
-      {
-        "name": "switchLevel_level",
-        "latest": null
-      },
-      {
-        "name": "switchLevel_levelRange",
-        "latest": null
-      }
     ]
   },
   "virtual_light_livingroom_3": {
@@ -128,58 +24,6 @@
     "tags": [
       "Light",
       "livingroom"
-    ],
-    "functions": [
-      {
-        "name": "colorControl_setColor"
-      },
-      {
-        "name": "colorControl_setHue"
-      },
-      {
-        "name": "colorControl_setSaturation"
-      },
-      {
-        "name": "switch_on"
-      },
-      {
-        "name": "switch_off"
-      },
-      {
-        "name": "switch_toggle"
-      },
-      {
-        "name": "switchLevel_setLevel"
-      },
-      {
-        "name": "switchLevel_alert"
-      }
-    ],
-    "values": [
-      {
-        "name": "colorControl_color",
-        "latest": null
-      },
-      {
-        "name": "colorControl_hue",
-        "latest": null
-      },
-      {
-        "name": "colorControl_saturation",
-        "latest": null
-      },
-      {
-        "name": "switch_switch",
-        "latest": "off"
-      },
-      {
-        "name": "switchLevel_level",
-        "latest": null
-      },
-      {
-        "name": "switchLevel_levelRange",
-        "latest": null
-      }
     ]
   },
   "virtual_light_livingroom_4": {
@@ -189,58 +33,6 @@
     "tags": [
       "Light",
       "livingroom"
-    ],
-    "functions": [
-      {
-        "name": "colorControl_setColor"
-      },
-      {
-        "name": "colorControl_setHue"
-      },
-      {
-        "name": "colorControl_setSaturation"
-      },
-      {
-        "name": "switch_on"
-      },
-      {
-        "name": "switch_off"
-      },
-      {
-        "name": "switch_toggle"
-      },
-      {
-        "name": "switchLevel_setLevel"
-      },
-      {
-        "name": "switchLevel_alert"
-      }
-    ],
-    "values": [
-      {
-        "name": "colorControl_color",
-        "latest": null
-      },
-      {
-        "name": "colorControl_hue",
-        "latest": null
-      },
-      {
-        "name": "colorControl_saturation",
-        "latest": null
-      },
-      {
-        "name": "switch_switch",
-        "latest": "off"
-      },
-      {
-        "name": "switchLevel_level",
-        "latest": null
-      },
-      {
-        "name": "switchLevel_levelRange",
-        "latest": null
-      }
     ]
   },
   "virtual_light_livingroom_5": {

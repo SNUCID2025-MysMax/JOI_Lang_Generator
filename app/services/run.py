@@ -89,7 +89,7 @@ def generate_joi_code(
         max_new_tokens=1024,
         use_cache=True,
         # 더 일관된 출력을 위한 인자들
-        do_sample=False,
+        # do_sample=False,
         temperature=0.1,
         repetition_penalty=1.2,
         streamer = TextStreamer(tokenizer, skip_prompt = True),

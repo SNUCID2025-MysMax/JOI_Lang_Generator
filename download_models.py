@@ -15,7 +15,6 @@ def download_models():
     if not os.path.exists(qwen_model_path):
         try:
             snapshot_download(
-                # repo_id="unsloth/Qwen2.5-Coder-7B-bnb-4bit",
                 repo_id="unsloth/Qwen2.5-Coder-7B-Instruct-bnb-4bit",
                 local_dir=qwen_model_path,
                 local_dir_use_symlinks=False
@@ -25,7 +24,6 @@ def download_models():
             print(f"✗ Qwen 모델 다운로드 실패: {e}")
     else:
         print("✓ Qwen2.5-Coder-7B 이미 존재함")
-
     
     # 2. BGE-M3 모델 다운로드
     print("Downloading BGE-M3 model...")
@@ -43,21 +41,7 @@ def download_models():
     else:
         print("✓ BGE-M3 이미 존재함")
     
-    # # 3. Sentence Transformer 모델 다운로드
-    # print("Downloading paraphrase-MiniLM-L6-v2 model...")
-    # sentence_model_path = os.path.join(models_dir, "paraphrase-MiniLM-L6-v2")
-    
-    # if not os.path.exists(sentence_model_path):
-    #     try:
-    #         temp_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
-    #         temp_model.save(sentence_model_path)
-    #         print("✓ paraphrase-MiniLM-L6-v2 다운로드 완료")
-    #     except Exception as e:
-    #         print(f"✗ SentenceTransformer 모델 다운로드 실패: {e}")
-    # else:
-    #     print("✓ paraphrase-MiniLM-L6-v2 이미 존재함")
-    
-    # 4. 어댑터 다운로드
+    # 3. 모델 어댑터 다운로드
     print("Downloading adapter from endermaru/mysmax...")
     adapter_path = os.path.join(models_dir, "qwenCoder-adapter")
     if not os.path.exists(adapter_path): 

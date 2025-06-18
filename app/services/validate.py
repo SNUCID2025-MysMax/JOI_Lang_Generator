@@ -145,9 +145,6 @@ def validate_accessors(code: str, tag_list, method_list, attribute_list, model) 
         best_match = attribute_list[scores.argmax().item()]
         return f".{best_match}"
         
-    # code = re.sub(tag_pattern, validate_tag, code)
-    # code = re.sub(method_pattern, validate_method, code)
-    # code = re.sub(attribute_pattern, validate_attribute, code)
     # 보호된 코드에서 패턴 매칭 수행
     protected_code = re.sub(tag_pattern, validate_tag, protected_code)
     protected_code = re.sub(method_pattern, validate_method, protected_code)

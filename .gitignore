@@ -191,18 +191,8 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/linux,python
 
 
-# finetune에서 py 이외 파일 무시
-finetune_old/*
-!finetune_old/*.py
-
-finetune_KO/*
-!finetune_KO/*.py
+# Custom
 nohup.out
-
-llama.cpp
-
-llama.cpp2
-llama.cpp*
 
 adapter
 

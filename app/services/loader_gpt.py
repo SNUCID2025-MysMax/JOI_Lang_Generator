@@ -17,7 +17,7 @@ def load_all_resources(model_name: str):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.abspath(os.path.join(base_dir, ".."))
 
-    client = OpenAI(api_key=settings.apiKey)
+    client = OpenAI(api_key=settings.openAiAPI)
 
     # 2. tokenizer 설정
     stop_token_ids = []
@@ -32,10 +32,7 @@ def load_all_resources(model_name: str):
         grammar_rules = f.read()
 
     # 4. 임베딩 및 문장 유사도 모델 - 첫 실행 시 다운로드에 시간이 소요됨
-    # embed_model = BGEM3FlagModel('BAAI/bge-m3', use_fp16=True)
     embed_model = BGEM3FlagModel(os.path.join(root_dir, "resources", "models", "bge-m3"), use_fp16=False, local_files_only=True)
-    # sim_model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
-    # sim_model = SentenceTransformer(os.path.join(root_dir, "resources", "models", "paraphrase-MiniLM-L6-v2"))
     sim_model = SentenceTransformer(os.path.join(root_dir, "resources", "models", "bge-m3"))
 
     # 5. 임베딩 데이터 로드
