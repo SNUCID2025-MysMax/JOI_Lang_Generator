@@ -1,8 +1,8 @@
 import re,json,os,copy
 
-def remove_line_comment(line: str) -> str:
-    # //로 시작하는 주석 제거 (줄 끝 주석 포함)
-    return re.sub(r'\s*//.*$', '', line).rstrip()
+# def remove_line_comment(line: str) -> str:
+#     # //로 시작하는 주석 제거 (줄 끝 주석 포함)
+#     return re.sub(r'\s*//.*$', '', line).rstrip()
 
 def parse_scenarios(script: str):
     """
@@ -12,12 +12,16 @@ def parse_scenarios(script: str):
     # 주석 제거(Python 스타일)
     script = '\n'.join([re.sub(r'#\s.*', '', line).rstrip() for line in script.splitlines()])
 
+    # "//" 뒤 주석 제거 (C/C++/Java 스타일)
+    script = '\n'.join([re.sub(r'//.*', '', line).rstrip() for line in script.splitlines()])
+
     parts = [part.strip() for part in script.strip().split('---') if part.strip()]
     scenarios = []
 
     for part in parts:
-        raw_lines = part.strip().splitlines()
-        lines = [remove_line_comment(line) for line in raw_lines if remove_line_comment(line).strip()]
+        # raw_lines = part.strip().splitlines()
+        # lines = [remove_line_comment(line) for line in raw_lines if remove_line_comment(line).strip()]
+        lines = [line for line in part.splitlines()]
 
         name = lines[0].split('=', 1)[1].strip().strip('"')
         cron = lines[1].split('=', 1)[1].strip().strip('"')
@@ -40,7 +44,7 @@ def extract_last_code_block(text):
   문자열에서 마지막 코드 블록을 추출합니다.
   코드 블록은 ```로 시작하고 끝나는 부분으로 정의됩니다.
   """
-  pattern = r"```(?:[^\n]*)\n(.*?)```"
+  pattern = r"```(?:[^\n]*)?\n(name[^\n]*.*?)(?=```)"
   matches = re.findall(pattern, text, re.DOTALL)
   return matches[-1].strip() if matches else None
 

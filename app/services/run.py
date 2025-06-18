@@ -91,7 +91,7 @@ def generate_joi_code(
         # 더 일관된 출력을 위한 인자들
         do_sample=False,
         temperature=0.1,
-        repetition_penalty=1.1,
+        repetition_penalty=1.2,
         streamer = TextStreamer(tokenizer, skip_prompt = True),
     )
 
@@ -118,6 +118,8 @@ def generate_joi_code(
         except Exception as e:
             logger.error(f"Error parsing scenarios: {e}")
             code = [{'name': 'Scenario1', 'cron': '', 'period': -1, 'code': ''}]
+
+    logger.info(f"\nExtracted Code:\n{code}")
 
     # 각 코드 조각 별로 정제, 검증
     code_ret = []

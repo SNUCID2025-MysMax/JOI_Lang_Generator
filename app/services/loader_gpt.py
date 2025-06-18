@@ -28,7 +28,7 @@ def load_all_resources(model_name: str):
     device_classes = extract_classes_by_name(service_doc)
 
     # 4. 문법 규칙 불러오기
-    with open(os.path.join(root_dir, "resources", "grammar_ver1_1_7.txt"), "r") as f:
+    with open(os.path.join(root_dir, "resources", "grammar_ver1_1_8.txt"), "r") as f:
         grammar_rules = f.read()
 
     # 4. 임베딩 및 문장 유사도 모델 - 첫 실행 시 다운로드에 시간이 소요됨

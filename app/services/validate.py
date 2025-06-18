@@ -191,7 +191,9 @@ def translate_string_literals(code: str) -> str:
 def validate(code:str, classes: dict, selected_devices: list, devices_available: list, model, is_translate = True) -> str:
     """
     JOI 코드의 유효성을 검사하고 필요한 경우 수정합니다.
-    """
+    """ 
+    # 태그 구분자 교정
+    code = re.sub(r'(?<!\()(?<=\w)#(?=\w)', ' #', code)
 
     # 각 디바이스 설명에서 접근자, 태그 추출
     classes = {device:extract_accessors(classes[device]) for device in selected_devices}

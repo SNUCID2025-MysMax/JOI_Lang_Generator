@@ -14,5 +14,5 @@ docker run -p 8000:8000 -it --gpus all --name joi-generator -v $(pwd):/app fasta
 `$ python download_models.py`
 
 # 서버 실행
-`python -m uvicorn app.main:app --host=0.0.0.0 --port=8000`
+`python -m uvicorn app.main:app --host=0.0.0.0 --port=8000 --reload`
 `python -m uvicorn app.main_gpt:app --host=0.0.0.0 --port=8000`

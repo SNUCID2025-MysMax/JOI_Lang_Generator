@@ -81,9 +81,8 @@ def generate_joi_code(
     end_inference = datetime.now()
 
     response = response.choices[0].message.content.strip()
-
     
-    # logger.info(f"\nModel Response:\n{response}")
+    logger.info(f"\nModel Response:\n{response}")
     
     # 생성한 텍스트에서 코드 추출
     try:
