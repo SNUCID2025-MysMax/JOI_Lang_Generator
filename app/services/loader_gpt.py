@@ -23,7 +23,7 @@ def load_all_resources(model_name: str):
     stop_token_ids = []
 
     # 3. 디바이스 docs 추출
-    with open(os.path.join(root_dir,"resources","service_list_ver1.1.8.txt"), "r") as f:
+    with open(os.path.join(root_dir,"resources","service_list_ver1.1.9.txt"), "r") as f:
         service_doc = f.read()
     device_classes = extract_classes_by_name(service_doc)
 

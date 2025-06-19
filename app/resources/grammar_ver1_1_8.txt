@@ -39,6 +39,7 @@ period = 10000
 - Reset on new cron.
 - Reassigned with `=`.
 - Used for tracking global state across periods, such as counts, toggles, durations, triggers, and flags.
+- DO NOT USER `var` or any other types!
 ```
 cron = ""
 period = 100

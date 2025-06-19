@@ -148,5 +148,5 @@ python -m uvicorn app.main:app --host=0.0.0.0 --port=8000
 ## 📁 리소스 파일
 
 - 기본 Thing 정보: `app/resources/things_smart_farm.json`
-- 디바이스 서비스 목록: `app/resources/service_list_ver1.1.8.txt`
+- 디바이스 서비스 목록: `app/resources/service_list_ver1.1.9.txt`
 - 문법 프롬프트: `app/resources/grammar_ver1_1_8.txt`

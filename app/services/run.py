@@ -112,7 +112,7 @@ def generate_joi_code(
     try:
         code = parse_scenarios(extract_last_code_block(response))['code']
     except Exception as e:
-        print(f"Error extracting code block: {e}")
+        # print(f"Error extracting code block: {e}")
         try:
             code = parse_scenarios(response)['code']
         except Exception as e:
