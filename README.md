@@ -86,9 +86,9 @@ python download_models.py
 
 ```
 
-- Qwen2.5-coder:7B (5.2GB)
-- BGE-M3 (4.3GB)
-- Fine-tuned adapter (324MB)
+- [unsloth/Qwen2.5-Coder-7B-Instruct-bnb-4bit](https://huggingface.co/unsloth/Qwen2.5-Coder-7B-Instruct-bnb-4bit) (5.2GB)
+- [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3) (4.3GB)
+- [Fine-tuned adapter](https://huggingface.co/endermaru/mysmax) (324MB)
 
 ※ 다운로드는 최초 1회만 필요하며, 시간이 다소 소요될 수 있습니다.
 
