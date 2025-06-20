@@ -5,7 +5,7 @@ def deepl_translate(command, source="KO", target="EN", auth_key=settings.deeplAP
     """
     DeepL API를 사용하여 명령어를 번역합니다.
     """
-    # return command
+    return command
     url = "https://api-free.deepl.com/v2/translate"
     data = {
         "auth_key": auth_key,

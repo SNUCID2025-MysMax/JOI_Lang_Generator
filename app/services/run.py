@@ -7,7 +7,7 @@ from transformers import TextStreamer
 from .translate import deepl_translate
 from .embedding import hybrid_recommend
 from .validate import validate
-from .joi_tool import parse_scenarios, extract_last_code_block, extract_device_tags, add_device_tags
+from .joi_tool_extra import parse_scenarios, extract_last_code_block, extract_device_tags, add_device_tags
 import logging
 logger = logging.getLogger("uvicorn")
 
@@ -67,14 +67,14 @@ def generate_joi_code(
                 service_selected.add("Speaker")
 
     # 모델 호출 및 생성
-    prompt = f"Current Time: {current_time}\n\nGenerate JOI Lang code for \"{sentence_translated}\""
+    prompt = f"Current Time: {current_time}\nGenerate JOI Lang code for: \"{sentence_translated}\""
     
     if other_params:
         other_params_str = json.dumps(other_params, indent=2, ensure_ascii=False)
         prompt += f"\n\n<USER_INFO>\n{other_params_str}\n</USER_INFO>"
 
     messages = [
-        {"role": "system", "content": f"{grammar}\n<DEVICES>\n{service_doc}\n</DEVICES>",},
+        {"role": "system", "content": f"{grammar}\n<DEVICES>\n{service_doc}\n</DEVICES>\n",},
         {"role": "user", "content": prompt}
     ]
 
