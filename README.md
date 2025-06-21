@@ -111,6 +111,20 @@ python -m uvicorn app.main_gpt:app --host=0.0.0.0 --port=8000
 python -m uvicorn app.main:app --host=0.0.0.0 --port=8000
 
 ```
+### Exaone-deep:7.8B
+#### 모델 로드
+
+```bash
+python -m uvicorn app.main_exaone:app --host=0.0.0.0 --port=8000
+
+```
+
+### Deepseek
+```bash
+python -m uvicorn app.main_deepseek:app --host=0.0.0.0 --port=8000
+
+```
+
 
 ---
 

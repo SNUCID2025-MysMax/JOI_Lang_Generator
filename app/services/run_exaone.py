@@ -1,14 +1,19 @@
 # run.py
 
-import os, re, json, copy
+import os, re, json, copy, torch
+import concurrent.futures
 from datetime import datetime
 from transformers import TextStreamer
 from .translate import deepl_translate
 from .embedding import hybrid_recommend
 from .validate import validate
-from .joi_tool import parse_scenarios, extract_last_code_block, extract_device_tags, add_device_tags
+from .joi_tool_extra import parse_scenarios, extract_last_code_block, extract_device_tags, add_device_tags
 import logging
 logger = logging.getLogger("uvicorn")
+
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer
+from threading import Thread
 
 # JOI 코드 생성 함수
 def generate_joi_code(
@@ -19,8 +24,12 @@ def generate_joi_code(
     other_params: dict = None,
     model_resources: dict = None
 ) -> dict:
+    """
+    Requset로부터 JOI 코드를 생성, 검증 후 반환합니다.
+    """
+
     # 모델 리소스 추출
-    client = model_resources["model"]
+    model = model_resources["model"]
     tokenizer = model_resources["tokenizer"]
     stop_token_ids = model_resources["stop_token_ids"]
     embed_model = model_resources["embed_model"]
@@ -29,17 +38,14 @@ def generate_joi_code(
     device_classes = copy.deepcopy(model_resources["device_classes"])
     grammar = model_resources["grammar"]
 
+    start = datetime.now()
 
-    # # gpt는 번역 없이
-    # sentence_translated = sentence
     # 명령어 번역
     try:
         sentence_translated = deepl_translate(sentence)
     except Exception:
         sentence_translated = sentence 
     logger.info(f"Translated Sentence: {sentence_translated}")
-
-    start = datetime.now()
 
     # 디바이스 및 태그 정보 추출
     tag_device, tag_sets = extract_device_tags(connected_devices, device_classes)
@@ -64,34 +70,67 @@ def generate_joi_code(
                 service_doc += "\n---\n" + speaker_info
                 service_selected.add("Speaker")
 
+    # 모델 호출 및 생성
+    prompt = f"{grammar}\n<DEVICES>\n{service_doc}\n</DEVICES>\n\n<Input>Current Time: {current_time}\nGenerate JOI Lang code for: \"{sentence_translated}\"</Input>"
+    
+    if other_params:
+        other_params_str = json.dumps(other_params, indent=2, ensure_ascii=False)
+        prompt += f"\n\n<USER_INFO>\n{other_params_str}\n</USER_INFO>"
 
-    # == 모델 호출 및 생성 ==
     messages = [
-        {"role": "system", "content": f"<grammar>\n{grammar}</grammar>\n\n<devices>{service_doc}</devices>",},
-        {"role": "user", "content": f"Current Time: {current_time}\n\nGenerate JOI Lang code for: \"{sentence_translated}\""}
+        {"role": "user", "content": prompt}
     ]
 
-    start_inference = datetime.now()
+    input_ids = tokenizer.apply_chat_template(
+        messages, 
+        tokenize=True, 
+        add_generation_prompt=True, 
+        return_tensors="pt"
+    ).to("cuda")
 
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=messages,
-    )
+    streamer = TextIteratorStreamer(tokenizer)
+    thread = Thread(target=model.generate, kwargs=dict(
+        input_ids=input_ids.to("cuda"),
+        eos_token_id=tokenizer.eos_token_id,
+        max_new_tokens=32768,
+        do_sample=True,
+        temperature=0.6,
+        top_p=0.95,
+        streamer=streamer
+    ))
+    thread.start()
+
+    start_inference = datetime.now()
+    response = ""
+    for text in streamer:
+        print(text, end="", flush=True)
+        response += text
 
     end_inference = datetime.now()
 
-    response = response.choices[0].message.content.strip()
+    # generated_ids = outputs[0][len(inputs[0]):]
     
-    logger.info(f"\nModel Response:\n{response}")
+    # # stop_token_ids에 해당하는 토큰이 생성된 경우, 해당 인덱스까지 잘라냄
+    # stop_indexes = [i for i, tok_id in enumerate(generated_ids) if tok_id in stop_token_ids]
+    # if stop_indexes:
+    #     generated_ids = generated_ids[:stop_indexes[0]]
+
+    # response = tokenizer.decode(generated_ids, skip_special_tokens=True).strip()
+
+    # logger.info(f"\nModel Response:\n{response}")
     
     # 생성한 텍스트에서 코드 추출
     try:
         code = parse_scenarios(extract_last_code_block(response))['code']
-    except:
+    except Exception as e:
+        # print(f"Error extracting code block: {e}")
         try:
             code = parse_scenarios(response)['code']
-        except:
+        except Exception as e:
+            logger.error(f"Error parsing scenarios: {e}")
             code = [{'name': 'Scenario1', 'cron': '', 'period': -1, 'code': ''}]
+
+    logger.info(f"\nExtracted Code:\n{code}")
 
     # 각 코드 조각 별로 정제, 검증
     code_ret = []

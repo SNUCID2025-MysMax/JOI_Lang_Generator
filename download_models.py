@@ -25,6 +25,23 @@ def download_models():
     else:
         print("✓ Qwen2.5-Coder-7B 이미 존재함")
     
+    # 2. Deepseek
+    print("Downloading Deepseek model...")
+    qwen_model_path = os.path.join(models_dir, "deepseek-model")
+    
+    if not os.path.exists(qwen_model_path):
+        try:
+            snapshot_download(
+                repo_id="unsloth/DeepSeek-R1-0528-Qwen3-8B-unsloth-bnb-4bit",
+                local_dir=qwen_model_path,
+                local_dir_use_symlinks=False
+            )
+            print("✓ Qwen2.5-Coder-7B 다운로드 완료")
+        except Exception as e:
+            print(f"✗ Qwen 모델 다운로드 실패: {e}")
+    else:
+        print("✓ Qwen2.5-Coder-7B 이미 존재함")
+
     # 2. BGE-M3 모델 다운로드
     print("Downloading BGE-M3 model...")
     bge_model_path = os.path.join(models_dir, "bge-m3")
