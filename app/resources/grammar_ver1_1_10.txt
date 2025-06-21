@@ -196,12 +196,12 @@ Step 5: Code Generation
 
 </GENERATION>
 
-<EXAMPLE>
-[INPUT1]
+<EXAMPLE1>
+Input:
 Current Time: 2025-06-05 18:00:00
 Generate JOI Lang code for: "When soil moisture drops to 20% or below, turn on all the irrigator in SectorA."
 
-[OUTPUT1]
+Output:
 cron = "", period = -1, break = N
 all = Y, any = N
 
@@ -211,13 +211,14 @@ period = -1
 wait until((#SoilMoistureSensor).soilHumidityMeasurement_soilHumidity <= 20.0)
 all(#Irrigator #SectorA).switch_on() 
 ```
----
+</EXAMPLE1>
 
-[INPUT2]
+<EXAMPLE2>
+Input:
 Current Time: 2025-04-10 12:00:00
 Generate JOI Lang code for: "Open the window every 6 a.m."
 
-[OUTPUT2]
+Output:
 cron = "0 6 * * *", period = 0, break = N
 all = N, any = N
 
@@ -226,13 +227,14 @@ cron = "0 6 * * *"
 period = 0
 (#Window).windowControl_open()
 ```
----
+</EXAMPLE2>
 
-[INPUT3]
+<EXAMPLE3>
+Input:
 Current Time: 2025-03-28 12:50:00
 Generate JOI Lang code for: "Turn the fan on and off every second, but stop if humidity goes above 80%"
 
-[OUTPUT3]
+Output:
 cron = "", period = 1000, break = Y
 all = N, any = N
 
@@ -245,4 +247,6 @@ if (humidity >= 80.0) {
 }
 (#Fan).switch_toggle()
 ```
-</EXAMPLE>
+</EXAMPLE3>
+
+**Just Generate Output Section!**
