@@ -6,7 +6,7 @@ from transformers import TextStreamer
 from .translate import deepl_translate
 from .embedding import hybrid_recommend
 from .validate import validate
-from .joi_tool import parse_scenarios, extract_last_code_block, extract_device_tags, add_device_tags
+from .joi_tool_extra import parse_scenarios, extract_last_code_block, extract_device_tags, add_device_tags
 import logging
 logger = logging.getLogger("uvicorn")
 
